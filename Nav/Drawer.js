@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import Home from './Screen/Home';
-import Profile from './Screen/Profile';
+import Home from '../Screen/Home';
+import Profile from '../Screen/Profile';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,18 +15,18 @@ function mainHome() {
 }
 
 const CustomHeader = ({ navigation }) => {
-  return (
-    <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Image source={require('./assets/menu.png')} style={styles.menuIcon} />
-      </TouchableOpacity>
-      <Image source={require('./assets/logo.png')} style={styles.logo} />
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Image source={require('./assets/favicon.png')} style={styles.profileIcon} />
-      </TouchableOpacity>
-    </View>
-  );
-};
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image source={require('../assets/menu.png')} style={styles.menuIcon} />
+        </TouchableOpacity>
+        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Image source={require('../assets/favicon.png')} style={styles.profileIcon} />
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
 export default function MyDrawer() {
   return (
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingTop: 40,
-    backgroundColor: 'silver',
+    backgroundColor: '#30f7a0',
   },
   menuIcon: {
     width: 30,
