@@ -12,7 +12,7 @@ const Drawer = createDrawerNavigator();
 
 function mainHome() {
   return (
-      <Home/>
+<Home/>
   
   );
 }
@@ -38,7 +38,7 @@ export default function MyDrawer() {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Paintings" component={Paintings} />
         <Drawer.Screen name="Privacy Policy " component={PrivacyPolicyPage} />
-        <Drawer.Screen name="About Screen" component={AboutUsScreen} />
+        <Drawer.Screen name="About Us" component={AboutUsScreen} />
         <Drawer.Screen name="Profile" component={Profile} />
       </Drawer.Navigator>
     </NavigationContainer>
@@ -71,11 +71,11 @@ const styles = StyleSheet.create({
   profileIcon: {
     width: 40,
     height: 40,
-    marginLeft: 40,
+    marginLeft: 45,
   },
   logo: {
     width: 160,
     height: 30,
-    marginLeft: 50,
+    marginLeft: 80,
   },
 });

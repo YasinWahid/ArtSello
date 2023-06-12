@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import FooterComponent from '../Nav/Footer';
+
 
 const PrivacyPolicyPage = () => {
   return (
@@ -45,14 +47,15 @@ const PrivacyPolicyPage = () => {
         If you have any questions or concerns about our Privacy Policy, please
         contact us at privacy@artsello.com.
       </Text>
+      <FooterComponent/>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     backgroundColor: '#FFFFFF',
+    paddingBottom: '100%', 
   },
   heading: {
     fontSize: 24,

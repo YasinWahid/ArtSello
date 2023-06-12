@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import FooterComponent from '../Nav/Footer';
+
 
 const AboutUsScreen = () => {
   return (
@@ -51,6 +53,7 @@ const AboutUsScreen = () => {
           <Text style={styles.developerName}>JUNAID KHAN SP20-BSE-066</Text>
         </View>
       </View>
+      <FooterComponent/>
     </ScrollView>
   );
 };
@@ -58,8 +61,7 @@ const AboutUsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingBottom: '100%', 
   },
   heading: {
     fontSize: 24,

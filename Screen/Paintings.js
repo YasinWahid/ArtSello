@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import FooterComponent from '../Nav/Footer';
+import Paintingpd from './Paintingsp';
 
 const products = [
   { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'RS 3,500', image: require('../assets/intro1.png') },
@@ -12,6 +14,8 @@ const products = [
    { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png') },
    { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png') },
    { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png') },
+   { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png') },
+   
   // ... add more products here
 ];
 
@@ -47,12 +51,13 @@ const Paintings = () => {
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.productName}>{item.name} </Text>
       <Text style={styles.productPrice}>{item.price}</Text>
     </TouchableOpacity>
   );
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.header}>
         {/* Header content goes here */}
@@ -72,7 +77,9 @@ const Paintings = () => {
       <View style={styles.footer}>
         {/* Footer content goes here */}
       </View>
+      <FooterComponent/>
     </View>
+    </ScrollView>
   );
 };
 
@@ -88,6 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+    marginBottom: 200,
   },
   pageTitle: {
     fontSize: 24,
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   productList: {
-    paddingBottom: 16,
+    paddingBottom: 200,
   },
   productItem: {
     flex: 0.5,

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import Paintings from './Paintings';
+import FooterComponent from '../Nav/Footer';
 
 const Home = ({ navigation }) => {
   const introImages = [
@@ -10,7 +11,7 @@ const Home = ({ navigation }) => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <FlatList
         data={introImages}
         horizontal
@@ -33,16 +34,54 @@ const Home = ({ navigation }) => {
           <Text style={styles.categoryText}>Paintings</Text>
         </View>
       </TouchableOpacity>
-    </View>
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+        <Image
+          source={require('../assets/intro3.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Paintings</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+        <Image
+          source={require('../assets/intro3.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Paintings</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+        <Image
+          source={require('../assets/intro3.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Paintings</Text>
+        </View>
+      </TouchableOpacity>
+        <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+        <Image
+          source={require('../assets/intro3.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Paintings</Text>
+        </View>
+      </TouchableOpacity>
+      <FooterComponent/>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#D8d8d8',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 100, // Adjust this value according to your footer height
   },
   introText: {
     fontSize: 14,
@@ -85,7 +124,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   categories: {
-    marginBottom: 180,
+    marginBottom: 40,
   },
 });
 
