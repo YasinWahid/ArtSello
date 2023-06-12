@@ -4,6 +4,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../Screen/Home';
 import Profile from '../Screen/Profile';
+import Paintings from '../Screen/Paintings';
+import AboutUsScreen from '../Screen/About';
+import PrivacyPolicyPage from '../Screen/Privacy';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,9 +23,9 @@ const CustomHeader = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Image source={require('../assets/menu.png')} style={styles.menuIcon} />
         </TouchableOpacity>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <Image source={require('../assets/logo1.png')} style={styles.logo} />
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Image source={require('../assets/favicon.png')} style={styles.profileIcon} />
+          <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
         </TouchableOpacity>
       </View>
     );
@@ -33,6 +36,9 @@ export default function MyDrawer() {
     <NavigationContainer>
       <Drawer.Navigator  screenOptions={{ header: (props) => <CustomHeader {...props} /> }}>
         <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Paintings" component={Paintings} />
+        <Drawer.Screen name="Privacy Policy " component={PrivacyPolicyPage} />
+        <Drawer.Screen name="About Screen" component={AboutUsScreen} />
         <Drawer.Screen name="Profile" component={Profile} />
       </Drawer.Navigator>
     </NavigationContainer>
@@ -55,21 +61,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingTop: 40,
-    backgroundColor: '#30f7a0',
+    paddingBottom: 10,
+    backgroundColor: 'black',
   },
   menuIcon: {
     width: 30,
     height: 30,
-    marginRight: 10,
   },
   profileIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 80,
+    width: 40,
+    height: 40,
+    marginLeft: 40,
   },
   logo: {
-    width: 120,
-    height: 40,
-    marginLeft: 55,
+    width: 160,
+    height: 30,
+    marginLeft: 50,
   },
 });

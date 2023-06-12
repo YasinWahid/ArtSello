@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import Paintings from './Paintings';
 
 const Home = ({ navigation }) => {
   const introImages = [
@@ -23,7 +24,7 @@ const Home = ({ navigation }) => {
       />
       <Text style={styles.introText}>WELCOME TO ARTSELLO</Text>
       <Text style={styles.introText2}>Our Categories</Text>
-      <TouchableOpacity style={styles.categories} onPress={() => {}}>
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
         <Image
           source={require('../assets/intro3.jpg')}
           style={styles.categoryImage}
