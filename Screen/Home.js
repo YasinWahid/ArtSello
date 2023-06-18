@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import Paintings from './Paintings';
+import Paintings from '../CategoryPages/Paintings';
+import KidsClothing from '../CategoryPages/Clothingkids';
 import FooterComponent from '../Nav/Footer';
 
 const Home = ({ navigation }) => {
@@ -25,49 +26,104 @@ const Home = ({ navigation }) => {
       />
       <Text style={styles.introText}>WELCOME TO ARTSELLO</Text>
       <Text style={styles.introText2}>Our Categories</Text>
-      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+        {/* KIDS CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Kids Clothing ')}>
         <Image
-          source={require('../assets/intro3.jpg')}
+          source={require('../assets/cat1.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Kid's Clothing</Text>
+        </View>
+      </TouchableOpacity>
+          {/* MENS CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Mens Clothing ')}>
+        <Image
+          source={require('../assets/cat2.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Men's Clothing</Text>
+        </View>
+      </TouchableOpacity>
+         {/* WOMEN CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Womens Clothing ')}>
+        <Image
+          source={require('../assets/cat3.jpg')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Women's Clothing</Text>
+        </View>
+      </TouchableOpacity>
+        {/* JEWELLERY CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Jewellery ')}>
+        <Image
+          source={require('../assets/cat4.png')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Jewellery</Text>
+        </View>
+      </TouchableOpacity>
+                    {/* PAINTINGS CATEGORY */}
+        <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Painting')}>
+        <Image
+          source={require('../assets/cat5.jpg')}
           style={styles.categoryImage}
         />
         <View style={styles.imageOverlay}>
           <Text style={styles.categoryText}>Paintings</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+          {/* POTTERY CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Pottery ')}>
         <Image
-          source={require('../assets/intro3.jpg')}
+          source={require('../assets/cat6.jpg')}
           style={styles.categoryImage}
         />
         <View style={styles.imageOverlay}>
-          <Text style={styles.categoryText}>Paintings</Text>
+          <Text style={styles.categoryText}>Pottery</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+                 {/* PRINTED PHOTOGRAPHY CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Printed Photography ')}>
         <Image
-          source={require('../assets/intro3.jpg')}
+          source={require('../assets/cat7.jpg')}
           style={styles.categoryImage}
         />
         <View style={styles.imageOverlay}>
-          <Text style={styles.categoryText}>Paintings</Text>
+          <Text style={styles.categoryText}>Printed Photography</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+               {/* SCARVES CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Scarves  ')}>
         <Image
-          source={require('../assets/intro3.jpg')}
+          source={require('../assets/cat8.jpg')}
           style={styles.categoryImage}
         />
         <View style={styles.imageOverlay}>
-          <Text style={styles.categoryText}>Paintings</Text>
+          <Text style={styles.categoryText}>Scarves</Text>
         </View>
       </TouchableOpacity>
-        <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings')}>
+               {/* SCULPTURES CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Sculptures  ')}>
         <Image
-          source={require('../assets/intro3.jpg')}
+          source={require('../assets/cat9.jpg')}
           style={styles.categoryImage}
         />
         <View style={styles.imageOverlay}>
-          <Text style={styles.categoryText}>Paintings</Text>
+          <Text style={styles.categoryText}>Sculptures</Text>
+        </View>
+      </TouchableOpacity>
+                 {/* TRADITIONAL INSTRUMENTS CATEGORY */}
+      <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Traditional  Instruments')}>
+        <Image
+          source={require('../assets/cat10.png')}
+          style={styles.categoryImage}
+        />
+        <View style={styles.imageOverlay}>
+          <Text style={styles.categoryText}>Traditional Instruments</Text>
         </View>
       </TouchableOpacity>
       <FooterComponent/>
@@ -78,10 +134,10 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#D8d8d8',
+    backgroundColor: '#DCFBED',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 100, // Adjust this value according to your footer height
+    paddingBottom: '100%',
   },
   introText: {
     fontSize: 14,
@@ -103,9 +159,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   categoryImage: {
-    width: 300,
-    height: 220,
-    borderRadius: 8,
+    width: 350,
+    height: 250,
+    borderRadius: 6,
   },
   imageOverlay: {
     position: 'absolute',
@@ -121,10 +177,10 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#DCFBED',
   },
   categories: {
-    marginBottom: 40,
+    marginBottom: 20,
   },
 });
 

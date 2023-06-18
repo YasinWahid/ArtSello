@@ -32,25 +32,25 @@ const AboutUsScreen = () => {
       <View style={styles.teamContainer}>
         <View style={styles.developerContainer}>
           <Image
-            source={require('../assets/intro1.png')}
+            source={require('../assets/dev1.jpg')}
             style={styles.image}
           />
-          <Text style={styles.developerName}>YASIN WAHID SP20-BSE-059 </Text>
+          <Text style={styles.developerName}>YASIN WAHID | SP20-BSE-059</Text>
 
         </View>
         <View style={styles.developerContainer}>
           <Image
-            source={require('../assets/intro2.jpg')}
+            source={require('../assets/dev2.jpg')}
             style={styles.image}
           />
-          <Text style={styles.developerName}>HAMZA KHAN SP20-BSE-039</Text>
+          <Text style={styles.developerName}>HAMZA KHAN | SP20-BSE-039 </Text>
         </View>
         <View style={styles.developerContainer}>
           <Image
-            source={require('../assets/intro3.jpg')}
+            source={require('../assets/dev3.jpg')}
             style={styles.image}
           />
-          <Text style={styles.developerName}>JUNAID KHAN SP20-BSE-066</Text>
+          <Text style={styles.developerName}>JUNAID KHAN | SP20-BSE-066</Text>
         </View>
       </View>
       <FooterComponent/>
@@ -62,30 +62,37 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingBottom: '100%', 
+    backgroundColor: '#DCFBED',
   },
   heading: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   description: {
     fontSize: 16,
     marginBottom: 15,
+    textAlign: 'justify',
+    marginHorizontal: 15,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    marginHorizontal: 10,
     marginBottom: 10,
   },
   reasonContainer: {
     marginTop: 10,
+    marginHorizontal: 15,
+    textAlign: 'justify',
   },
   reason: {
     fontSize: 16,
     marginBottom: 10,
   },
   teamTitle: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: 20,
@@ -100,14 +107,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 40,
+    width: 300,
+    height: 350,
+    borderRadius: 5,
   },
   developerName: {
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

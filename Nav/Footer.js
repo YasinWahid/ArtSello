@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const FooterComponent = () => {
-  const handleTextClick = () => {
-    // Add your logic here for when the text is clicked
-    console.log('Text clicked!');
-  };
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -14,24 +12,24 @@ const FooterComponent = () => {
         style={styles.logo}
       />
       <Text style={styles.textheader}>Our Categories</Text>
-      <TouchableOpacity onPress={handleTextClick} style={styles.box}>
+      <TouchableOpacity onPress={() => navigation.navigate('Paintings')} style={styles.box}>
         <Text style={styles.text}>   Paintings</Text>
       </TouchableOpacity>
-        <TouchableOpacity onPress={handleTextClick} style={styles.box}>
+      <TouchableOpacity onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
         <Text style={styles.text}>   Pottery</Text>
       </TouchableOpacity>
-        <TouchableOpacity onPress={handleTextClick} style={styles.box}>
+      <TouchableOpacity onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
         <Text style={styles.text}>   Sculptures</Text>
       </TouchableOpacity>
 
       <Text style={styles.textheader}>Useful Links</Text>
-      <TouchableOpacity onPress={handleTextClick} style={styles.box}>
+      <TouchableOpacity onPress={() => navigation.navigate('About Us')} style={styles.box}>
         <Text style={styles.text}>   About Us</Text>
       </TouchableOpacity>
-        <TouchableOpacity onPress={handleTextClick} style={styles.box}>
-        <Text style={styles.text}>   Privacy Policies</Text>
+      <TouchableOpacity  onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
+        <Text style={styles.text}>   Privacy Policy</Text>
       </TouchableOpacity>
-          <Text style={styles.end}> @2020-2024 | ArtSello.com,Inc.</Text>
+      <Text style={styles.end}> @2020-2024 | ArtSello.com,Inc.</Text>
     </View>
   );
 };
@@ -51,7 +49,6 @@ const styles = {
     width: 200,
     height: 50,
     resizeMode: 'stretch',
-
   },
   box: {
     padding: 10,
@@ -73,10 +70,9 @@ const styles = {
     fontSize: 12,
     marginTop: 10,
     fontWeight: 'bold',
-   textAlign: 'center',
+    textAlign: 'center',
     color: 'white',
   },
 };
-
 
 export default FooterComponent;

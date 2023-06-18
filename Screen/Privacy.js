@@ -54,23 +54,28 @@ const PrivacyPolicyPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#DCFBED',
     paddingBottom: '100%', 
   },
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    marginHorizontal: 10,
+    textAlign: 'center',
   },
   subHeading: {
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
+    marginHorizontal: 10,
   },
   text: {
     fontSize: 16,
     marginBottom: 15,
+     marginHorizontal: 20,
+     textAlign: 'justify',
   },
 });
 

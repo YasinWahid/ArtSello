@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { ScrollView } from 'react-native-gesture-handler';
+import FooterComponent from '../Nav/Footer';
 
 const ProductCard = ({ imageSource, title, description, price }) => {
   const [rating, setRating] = useState(0);
@@ -51,7 +53,7 @@ const ProductCard = ({ imageSource, title, description, price }) => {
     <View style={styles.container}>
       <Image source={imageSource} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.price}>Price: {price}</Text>
+      <Text style={styles.price}> {price}</Text>
       <Text style={styles.description}>{description}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleWishlist}>
@@ -62,9 +64,9 @@ const ProductCard = ({ imageSource, title, description, price }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.reviewContainer}>
-        <Text style={styles.reviewTitle}>Write a Review</Text>
+        <Text style={styles.reviewTitle}>Give Rating & Review</Text>
         <View style={styles.ratingContainer}>
-          <Text style={styles.ratingText}>Your Rating:</Text>
+          <Text style={styles.ratingText}>Give Rating:  </Text>
           {[1, 2, 3, 4, 5].map((num) => (
             <TouchableOpacity
               key={num}
@@ -79,22 +81,22 @@ const ProductCard = ({ imageSource, title, description, price }) => {
             </TouchableOpacity>
           ))}
         </View>
-         <Text style={styles.inputLabel}>Your review:</Text>
-         <br/>
+         <Text style={styles.inputLabel}>Write your review</Text>
+      
         <TextInput
           style={styles.reviewInput}
-          placeholder="Write your review here"
+          placeholder="Please give your review here..."
           value={review}
           onChangeText={handleReviewChange}
           multiline
         />
-    <Text style={styles.inputLabel}>Name:</Text>
+    <Text style={styles.inputLabel}>Name</Text>
     <TextInput
       style={styles.input}
       value={name}
       onChangeText={handleNameChange}
     />
-        <Text style={styles.inputLabel}>Email:</Text>
+        <Text style={styles.inputLabel}>Email</Text>
     <TextInput
       style={styles.input}
       value={email}
@@ -106,16 +108,21 @@ const ProductCard = ({ imageSource, title, description, price }) => {
   );
 };
 
-const Paintingpd = () => {
+const ClothingWomenProductPage = ({ route }) => {
+  const { product } = route.params;
+  const { image, name, price, description } = product;
   return (
+    <ScrollView>
     <View style={styles.container}>
       <ProductCard
-        imageSource={require('../assets/intro1.png')}
-        title="Product 1"
-        description="This is the description of Product 1."
-        price="$9.99"
+        imageSource={image}
+        title={name}
+        description={description}
+        price={price}
       />
     </View>
+    <FooterComponent/>
+    </ScrollView>
   );
 };
 
@@ -124,14 +131,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#DCFBED',
     marginVertical: 10,
     paddingHorizontal: 20,
+    paddingBottom: '100%',
   },
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 8,
+    width: 350,
+    height: 300,
+    borderRadius: 4,
   },
   title: {
     fontSize: 16,
@@ -164,10 +172,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   reviewContainer: {
-    marginTop: 20,
+    width: 350,
+    marginTop: 40,
   },
   reviewTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -178,13 +187,14 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     marginRight: 5,
+    fontWeight: 'bold',
   },
   starButton: {
     marginRight: 5,
   },
   reviewInput: {
     width: '100%',
-    height: 100,
+    height: 200,
     borderColor: '#CCC',
     borderWidth: 1,
     borderRadius: 8,
@@ -200,6 +210,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
 
-export default Paintingpd;
+export default ClothingWomenProductPage;
