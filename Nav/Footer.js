@@ -11,16 +11,7 @@ const FooterComponent = () => {
         source={require('../assets/logo2.png')}
         style={styles.logo}
       />
-      <Text style={styles.textheader}>Our Categories</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Paintings')} style={styles.box}>
-        <Text style={styles.text}>   Paintings</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
-        <Text style={styles.text}>   Pottery</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
-        <Text style={styles.text}>   Sculptures</Text>
-      </TouchableOpacity>
+
 
       <Text style={styles.textheader}>Useful Links</Text>
       <TouchableOpacity onPress={() => navigation.navigate('About Us')} style={styles.box}>
