@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingBottom: '100%', 
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   heading: {
     fontSize: 28,

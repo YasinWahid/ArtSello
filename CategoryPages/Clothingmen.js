@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import ClothingmenProductPage from '../ProductPage/ClothingmenProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Embroidered Modal Satin Off White Men Sherwani With Dupatta', price: 'Rs.9999', image: require('../assets/menc1.png'), description: 'this' },
+  { id: 2, name: 'Art Silk Black Party Wear Men Sherwani With Stone Embroidery', price: 'Rs.11999', image: require('../assets/menc2.png'), description: 'this' },
+  { id: 3, name: 'Dark Beige Brocade Embroidered Men Sherwani With Dupatta', price: 'Rs.8900', image: require('../assets/menc3.png'), description: 'this' },
+  { id: 4, name: 'Mint Green Dupion Silk Embroidered Men Kurta Pajama', price: 'Rs.3200', image: require('../assets/menc4.png'), description: 'this' },
+  { id: 5, name: 'Grey Four Piece Suit Online For Men', price: 'Rs.7600', image: require('../assets/menc5.png'), description: 'this' },
+  { id: 6, name: 'Pistachio Green Jacquard Straight Cut Men', price: 'Rs.6500', image: require('../assets/menc6.png'), description: 'this' },
+  { id: 7, name: 'Navy Blue Art Silk Men Kurta Pajama With Jacket', price: 'Rs.4870', image: require('../assets/menc7.png'), description: 'this' },
+  { id: 8, name: 'Black Cotton Silk Straight Cut Men Kurta Pajama', price: 'Rs.3500', image: require('../assets/menc8.png'), description: 'this' },
+  { id: 9, name: 'Off White Cotton Silk Embroidered Men Kurta Pajama', price: 'Rs.2470', image: require('../assets/menc9.png'), description: 'this' },
+  { id: 10, name: 'Beige Art Silk Men Sherwani For Sangeet With Thread Embroidery', price: 'Rs.1940', image: require('../assets/menc10.png'), description: 'this' },
 ];
 
 const MensClothing = ({ navigation }) => {
@@ -75,7 +75,7 @@ const MensClothing = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

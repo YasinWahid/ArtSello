@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import ScarvesProductPage from '../ProductPage/ScarvesProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Georgette Hijab – Pure White', price: 'Rs.3,800', image: require('../assets/sca1.png'), description: 'this' },
+  { id: 2, name: 'Georgette Hijab – Dark Purple', price: 'Rs.3,900', image: require('../assets/sca2.png'), description: 'this' },
+  { id: 3, name: 'Jersey Hijab - Emerald Green', price: 'Rs.4,500', image: require('../assets/sca3.png'), description: 'this' },
+  { id: 4, name: 'Crinkle Crimps – Bundle Of 6', price: 'Rs.6,700', image: require('../assets/sca4.png'), description: 'this' },
+  { id: 5, name: 'Crinkle Lawn - Navy Blue', price: 'Rs.3,200', image: require('../assets/sca5.png'), description: 'this' },
+  { id: 6, name: 'Crinkle Lawn - White', price: 'Rs.1,500', image: require('../assets/sca6.png'), description: 'this' },
+  { id: 7, name: 'Crinkle Lawn - Camel', price: 'Rs.1,600', image: require('../assets/sca7.png'), description: 'this' },
+  { id: 8, name: 'Crinkle Lawn - Green', price: 'Rs.1,800', image: require('../assets/sca8.png'), description: 'this' },
+  { id: 9, name: 'Crinkle Lawn - Sea Green', price: 'Rs.1,800', image: require('../assets/sca9.png'), description: 'this' },
+  { id: 10, name: 'Crinkle Lawn', price: 'Rs.1,800', image: require('../assets/sca10.png'), description: 'this' },
 ];
 
 const Scarves = ({ navigation }) => {
@@ -75,7 +75,7 @@ const Scarves = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

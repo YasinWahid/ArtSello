@@ -67,7 +67,7 @@ const Home = ({ navigation }) => {
         </View>
       </TouchableOpacity>
                     {/* PAINTINGS CATEGORY */}
-        <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Painting')}>
+        <TouchableOpacity style={styles.categories} onPress={() => navigation.navigate('Paintings ')}>
         <Image
           source={require('../assets/cat5.jpg')}
           style={styles.categoryImage}
@@ -134,7 +134,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '100%',

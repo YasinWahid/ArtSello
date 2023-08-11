@@ -114,7 +114,7 @@ const AddProductScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
     padding: 20,
     paddingBottom: '100%', 
   },

@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import PrintedPhotographyProductPage from '../ProductPage/PrintedPhotographyProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Photo Strips', price: 'Rs.3,500', image: require('../assets/pp1.jpg'), description: 'this' },
+  { id: 2, name: 'photo STRIPS', price: 'Rs.4,870', image: require('../assets/pp2.jpg'), description: 'this' },
+  { id: 3, name: 'Heart Cushion  ', price: 'Rs.4,870', image: require('../assets/pp3.jpg'), description: 'this' },
+  { id: 4, name: 'Nano Sticky Tiles  ', price: 'Rs.4,870', image: require('../assets/pp5.jpg'), description: 'this' },
+  { id: 5, name: 'Sticky Photo Frame  ', price: 'Rs.4,870', image: require('../assets/pp5.jpg'), description: 'this' },
+  { id: 6, name: 'Cushion Pillow  ', price: 'Rs.4,870', image: require('../assets/pp6.jpg'), description: 'this' },
+  { id: 7, name: 'Photo Stickers  ', price: 'Rs.4,870', image: require('../assets/pp7.jpg'), description: 'this' },
+  { id: 8, name: 'White Photo Mug  ', price: 'Rs.4,870', image: require('../assets/pp8.jpg'), description: 'this' },
+  { id: 9, name: 'Key Chains', price: 'Rs.4,870', image: require('../assets/pp9.jpg'), description: 'this' },
+  { id: 10, name: 'Artistic Mini Frame  ', price: 'Rs.4,870', image: require('../assets/pp10.jpg'), description: 'this' },
 ];
 
 const PrintedPhotography = ({ navigation }) => {
@@ -75,7 +75,7 @@ const PrintedPhotography = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

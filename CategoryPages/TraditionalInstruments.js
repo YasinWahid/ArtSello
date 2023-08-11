@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import TraditionalInstrumentsProductPage from '../ProductPage/TraditionalInstrumentsProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Classic Acoustic Guitar 38 Inch Blue Color with 3 Picks  ', price: 'Rs.3,500', image: require('../assets/ti1.png'), description: 'this' },
+  { id: 2, name: 'Linden Wooden Violin with Case, Bow, Adjusters and Rosin  ', price: 'Rs.3,650', image: require('../assets/ti2.png'), description: 'this' },
+  { id: 3, name: 'Yamaha Arius Digital Piano YDP-103 88 Key  ', price: 'Rs.2,500', image: require('../assets/ti3.png'), description: 'this' },
+  { id: 4, name: 'Yamaha Digital Piano P-45 88 Keys Stage Piano  ', price: 'Rs.1,500', image: require('../assets/ti4.png'), description: 'this' },
+  { id: 5, name: 'Filmi Dholak Black Sheesham Wooden Dholak with Brass Hooks  ', price: 'Rs.3,800', image: require('../assets/ti5.png'), description: 'this' },
+  { id: 6, name: 'High Quality Filmi Dholak Simple Metal Hooks  ', price: 'Rs.4,500', image: require('../assets/ti6.png'), description: 'this' },
+  { id: 7, name: 'Local Brand World Percussion Desi Dafli 8 Inch for Wedding Purposes  ', price: 'Rs.6,500', image: require('../assets/ti7.png'), description: 'this' },
+  { id: 8, name: 'High Quality Wooden Naal with Metal Hooks  ', price: 'Rs.7,500', image: require('../assets/ti8.png'), description: 'this' },
+  { id: 9, name: 'High Quality Wooden Dholki, Mehndi Dholki, Dholak With Metal Hooks  ', price: 'Rs.9,500', image: require('../assets/ti9.png'), description: 'this' },
+  { id: 10, name: 'High Quality Wooden Dholki, Mehndi Dholki, Dholak With Metal Hooks  ', price: 'Rs.13,500', image: require('../assets/ti9.png'), description: 'this' },
 ];
 
 const TraditionalInstruments = ({ navigation }) => {
@@ -75,7 +75,7 @@ const TraditionalInstruments = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

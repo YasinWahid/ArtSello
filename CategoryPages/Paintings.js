@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import PaintingsProductPage from '../ProductPage/PaintingsProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Double panel abstract boxart', price: 'Rs.3,500', image: require('../assets/pan1.jpg'), description: 'this' },
+  { id: 2, name: 'The Abstract Series- Be Your Own Pilot (Hir-397)', price: 'Rs.4,500', image: require('../assets/pan2.jpg'), description: 'this' },
+  { id: 3, name: 'Horse Portrait Sketch', price: 'Rs.1,875', image: require('../assets/pan3.jpg'), description: 'this' },
+  { id: 4, name: 'Old lahore', price: 'Rs.2,580', image: require('../assets/pan4.jpg'), description: 'this' },
+  { id: 5, name: 'The Beginning', price: 'Rs.4,567', image: require('../assets/pan5.jpg'), description: 'this' },
+  { id: 6, name: '3rd Kalma Tamjeed Abstract Calligraphy Painting', price: 'Rs.1,111', image: require('../assets/pan6.jpg'), description: 'this' },
+  { id: 7, name: 'Allah Hu Samad Calligraphy Painting', price: 'Rs.1,780', image: require('../assets/pan7.jpg'), description: 'this' },
+  { id: 8, name: 'Time flies', price: 'Rs.1,999', image: require('../assets/pan8.jpg'), description: 'this' },
+  { id: 9, name: 'The Solitary House', price: 'Rs.1,111', image: require('../assets/pan9.jpg'), description: 'this' },
+  { id: 10, name: 'Seascape Acrylic Painting', price: 'Rs.1,234', image: require('../assets/pan10.jpg'), description: 'this' },
 ];
 
 const Paintings = ({ navigation }) => {
@@ -75,7 +75,7 @@ const Paintings = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

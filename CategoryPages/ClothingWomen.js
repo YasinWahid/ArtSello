@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import ClothingWomenProductPage from '../ProductPage/ClothingWomenProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Ketifa Trendy Peach – Organza 3 Pcs Unstitched', price: 'Rs.3,500', image: require('../assets/womenc1.png'), description: 'this' },
+  { id: 2, name: 'Panache Women Zoraq 3 PCs Unstitched Suit', price: '$200', image: require('../assets/womenc2.png'), description: 'this' },
+  { id: 3, name: ' Panache Women Mahima 3 PCs Unstitched Suit', price: '$300', image: require('../assets/womenc3.png'), description: 'this' },
+  { id: 4, name: 'Panache Women Ayzel 3 PCs Unstitched Suit', price: '$300', image: require('../assets/womenc4.png'), description: 'this' },
+  { id: 5, name: 'Panache Women Mirah 3 PCs Unstitched Suit', price: '$300', image: require('../assets/womenc5.png'), description: 'this' },
+  { id: 6, name: 'Panache Women Raimah 3 PCs Unstitched Suit ', price: '$300', image: require('../assets/womenc6.png'), description: 'this' },
+  { id: 7, name: ' Panache Women Zimal 3 PCs Unstitched Suit', price: '$300', image: require('../assets/womenc7.png'), description: 'this' },
+  { id: 8, name: 'Tania Malik Theater Studio Women Off-White Gharara Dress', price: '$300', image: require('../assets/womenc8.png'), description: 'this' },
+  { id: 9, name: 'Tania Malik Theater Studio Women Black Festive Dress', price: '$300', image: require('../assets/womenc9.png'), description: 'this' },
+  { id: 10, name: 'Tania Malik Theater Studio EMERALD- Women Unstitched 3 PCs Embroidered Suit', price: '$300', image: require('../assets/womenc10.png'), description: 'this' },
 ];
 
 const WomensClothing = ({ navigation }) => {
@@ -75,7 +75,7 @@ const WomensClothing = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     backgroundColor: '#DCFBED',

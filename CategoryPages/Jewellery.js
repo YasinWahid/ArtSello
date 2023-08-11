@@ -6,16 +6,17 @@ import FooterComponent from '../Nav/Footer';
 import JewelleryProductPage from '../ProductPage/JewelleryProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'ALAYA-01 (Pearl)', price: 'Rs.3,500', image: require('../assets/jew1.jpg'), description: 'this' },
+  { id: 2, name: 'Hyderabadi Choker Set-15 (Pearl)', price: 'Rs.3,680', image: require('../assets/jew2.jpg'), description: 'this' },
+  { id: 3, name: 'Mala-06 (Pearl)', price: 'Rs.4,500', image: require('../assets/jew3.jpg'), description: 'this' },
+  { id: 4, name: 'Zircon Mala Set (Black)', price: 'Rs.7,500', image: require('../assets/jew4.jpg'), description: 'this' },
+  { id: 4, name: 'Zircon Mala Set (Black)', price: 'Rs.8,500', image: require('../assets/jew4.jpg'), description: 'this' },
+  { id: 5, name: 'Mariya (Green)', price: 'Rs.5,500', image: require('../assets/jew5.jpg'), description: 'this' },
+  { id: 6, name: 'Hair Pin-35 (Pack Of 2)', price: 'Rs.4,560', image: require('../assets/jew6.jpg'), description: 'this' },
+  { id: 7, name: 'FARIYA (Pearl)', price: 'Rs.4,560', image: require('../assets/jew7.jpg'), description: 'this' },
+  { id: 8, name: 'Braided Kara-06 (Green)', price: 'Rs.9,600', image: require('../assets/jew8.jpg'), description: 'this' },
+  { id: 9, name: 'AMYRA (Dark Green)', price: 'Rs.9,999', image: require('../assets/jew9.jpg'), description: 'this' },
+  { id: 10, name: 'Locket Set-33 (Ferozi)', price: 'Rs.1,580', image: require('../assets/jew10.jpg'), description: 'this' },
 ];
 
 const Jewellery = ({ navigation }) => {
@@ -75,7 +76,7 @@ const Jewellery = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

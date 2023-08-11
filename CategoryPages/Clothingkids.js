@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Malhaar - Arjumand-Kids - Kidswear', price: 'Rs.8,249', image: require('../assets/kidc1.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 2, name: 'Ruby Garnet Clothing', price: 'Rs.4,499', image: require('../assets/kidc2.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 3, name: 'Garnet Clothing', price: 'Rs.3,749', image: require('../assets/kidc3.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 4, name: 'Cheeco Chic', price: 'Rs.3,600', image: require('../assets/kidc4.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 5, name: 'Fresh birds', price: 'Rs.2,848', image: require('../assets/kidc5.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 6, name: 'Garnet Clothing', price: 'Rs.3,500', image: require('../assets/kidc6.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 7, name: 'Garnet Clothing', price: 'Rs. 3,340', image: require('../assets/kidc7.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 8, name: 'KASHMIRI DRESS FOR GIRLS PAKISTANI CULTURAL - BLACK', price: 'Rs.2,750.00', image: require('../assets/kidc8.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 9, name: 'PASHTO PASHTUN DRESS FOR GIRLS PAKISTANI CULTURAL - MAROON', price: 'Rs.2,750.00', image: require('../assets/kidc9.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
+  { id: 10, name: 'PASHTO PUKHTOON WAIST-COAT FOR KIDS PAKISTANI CULTURAL DRESS', price: 'Rs.1,750.00', image: require('../assets/kidc10.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
 ];
 
 const KidsClothing = ({ navigation }) => {
@@ -75,7 +75,7 @@ const KidsClothing = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

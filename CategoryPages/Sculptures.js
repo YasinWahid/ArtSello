@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import SculpturesProductPage from '../ProductPage/SculpturesProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Bird Figurine- Pink  ', price: 'Rs.3,780', image: require('../assets/scul1.jpg'), description: 'this' },
+  { id: 2, name: 'Toucan Bird Figurine  ', price: 'Rs.3,650', image: require('../assets/scul2.jpg'), description: 'this' },
+  { id: 3, name: 'Antique Porcelain Floor Vase with Blue Stone- Large  ', price: 'Rs.3,500', image: require('../assets/scul3.jpg'), description: 'this' },
+  { id: 4, name: 'Flamingo Figurine  ', price: 'Rs.2,500', image: require('../assets/scul4.jpg'), description: 'this' },
+  { id: 5, name: 'Lion With Crown Figurine – Large  ', price: 'Rs.13,500', image: require('../assets/scul5.jpg'), description: 'this' },
+  { id: 6, name: 'Apollo Statue Face – Grey', price: 'Rs.23,500', image: require('../assets/scul6.jpg'), description: 'this' },
+  { id: 7, name: 'Lion Figurine', price: 'Rs.31,500', image: require('../assets/scul7.jpg'), description: 'this' },
+  { id: 8, name: 'Lion With Crown Figurine – Medium', price: 'Rs.32,500', image: require('../assets/scul 8.jpg'), description: 'this' },
+  { id: 9, name: 'Deer Face Figurine  ', price: 'Rs.28,800', image: require('../assets/scul9.jpg'), description: 'this' },
+  { id: 10, name: 'Deer Figurine – Pair', price: 'Rs.3,5000', image: require('../assets/scul10.jpg'), description: 'this' },
 ];
 
 const Sculptures = ({ navigation }) => {
@@ -75,7 +75,7 @@ const Sculptures = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

@@ -6,16 +6,16 @@ import FooterComponent from '../Nav/Footer';
 import PotteryProductPage from '../ProductPage/PotteryProductPage';
 
 const products = [
-  { id: 1, name: 'The Abstract Series- Shift in Perception (Hir-418)', price: 'Rs.3,500', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 2, name: 'Product 2', price: '$200', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 3, name: 'Product 3', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 4, name: 'Product 4', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 5, name: 'Product 5', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 6, name: 'Product 6', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 7, name: 'Product 7', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 8, name: 'Product 8', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 9, name: 'Product 9', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
-  { id: 10, name: 'Product 10', price: '$300', image: require('../assets/intro1.png'), description: 'this' },
+  { id: 1, name: 'Handmade concave blue pottery mug with lid', price: 'Rs.989', image: require('../assets/pot1.jpg'), description: 'this' },
+  { id: 2, name: 'Clay Pottery Valuables & Daily Essentials Pot  ', price: 'Rs.4,670', image: require('../assets/pot2.jpg'), description: 'this' },
+  { id: 3, name: 'Blue Pottery Flower Vase  ', price: 'Rs. 6,780', image: require('../assets/pot3.jpg'), description: 'this' },
+  { id: 4, name: 'Blue Pottery Wall Hanging Rectangle  ', price: 'Rs.1,280', image: require('../assets/pot4.jpg'), description: 'this' },
+  { id: 5, name: 'Bismillah Blue Pottery Plate  ', price: 'Rs.7,560', image: require('../assets/pot5.jpg'), description: 'this' },
+  { id: 6, name: 'Blue Pottery Birds Nest  ', price: 'Rs.1,480', image: require('../assets/pot6.jpg'), description: 'this' },
+  { id: 7, name: 'Gava Arabian Tea Set  ', price: 'Rs.1,350', image: require('../assets/pot7.jpg'), description: 'this' },
+  { id: 8, name: 'Blue Pottery pomegranate handmade  ', price: 'Rs.1,450', image: require('../assets/pot8.jpg'), description: 'this' },
+  { id: 9, name: 'Floor Pottery Vase  ', price: 'Rs.1,280', image: require('../assets/pot9.jpg'), description: 'this' },
+  { id: 10, name: 'Lapis Lazuli Floor Blue Pottery Vase  ', price: 'Rs.3,580', image: require('../assets/pot10.jpg'), description: 'this' },
 ];
 
 const Pottery = ({ navigation }) => {
@@ -75,7 +75,7 @@ const Pottery = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
   },
   header: {
     // Header styles

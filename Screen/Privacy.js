@@ -54,7 +54,7 @@ const PrivacyPolicyPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#DCFBED',
+    backgroundColor: '#E5FAFE',
     paddingBottom: '100%', 
   },
   heading: {
