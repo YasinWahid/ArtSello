@@ -10,7 +10,6 @@ const products = [
   { id: 2, name: 'Hyderabadi Choker Set-15 (Pearl)', price: 'Rs.3,680', image: require('../assets/jew2.jpg'), description: 'this' },
   { id: 3, name: 'Mala-06 (Pearl)', price: 'Rs.4,500', image: require('../assets/jew3.jpg'), description: 'this' },
   { id: 4, name: 'Zircon Mala Set (Black)', price: 'Rs.7,500', image: require('../assets/jew4.jpg'), description: 'this' },
-  { id: 4, name: 'Zircon Mala Set (Black)', price: 'Rs.8,500', image: require('../assets/jew4.jpg'), description: 'this' },
   { id: 5, name: 'Mariya (Green)', price: 'Rs.5,500', image: require('../assets/jew5.jpg'), description: 'this' },
   { id: 6, name: 'Hair Pin-35 (Pack Of 2)', price: 'Rs.4,560', image: require('../assets/jew6.jpg'), description: 'this' },
   { id: 7, name: 'FARIYA (Pearl)', price: 'Rs.4,560', image: require('../assets/jew7.jpg'), description: 'this' },

@@ -12,7 +12,6 @@ const FooterComponent = () => {
         style={styles.logo}
       />
 
-
       <Text style={styles.textheader}>Useful Links</Text>
       <TouchableOpacity onPress={() => navigation.navigate('About Us')} style={styles.box}>
         <Text style={styles.text}>   About Us</Text>

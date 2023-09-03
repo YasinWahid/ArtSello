@@ -2,22 +2,38 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import FooterComponent from '../Nav/Footer';
 import AddProductScreen from './AddProduct';
+import {  getAuth } from 'firebase/auth'; // Updated import statements
+import { app } from '../firebase';
+import LoginScreen from './LoginScreen';
+import MyListingsScreen from './MyListings';
+
+const auth = getAuth(app);
 
 const Profile = ({ navigation }) => {
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.navigate("Login")
+      })
+      .catch(error => alert(error.message))
+  }
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.heading}> My Account</Text>
         <View style={styles.menu}>
           <Text style={styles.menuItem}>Name: <Text style={styles.menuItem2}>Hamza Khan</Text></Text>
-       
+          <Text>Email: {auth.currentUser?.email}</Text>
+          <Text>Name: {auth.currentUser?.fullName}</Text>
+          <Text>Phone Number: {auth.currentUser?.password}</Text>
           <Text style={styles.menuItem}>Email: <Text style={styles.menuItem2}>hamza@gmail.com</Text></Text>
           <Text style={styles.menuItem}>Gender: <Text style={styles.menuItem2}>Male</Text></Text>
           <Text style={styles.menuItem}>Address: <Text style={styles.menuItem2}>****,Abbottabad, Kpk</Text></Text>
           <Text style={styles.menuItem}></Text>
         </View>
         <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyListings')}>
             <Text style={styles.buttonText}>My Listings</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
@@ -29,7 +45,7 @@ const Profile = ({ navigation }) => {
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button}  onPress={handleSignOut}>
             <Text style={styles.buttonText}>Log out</Text>
           </TouchableOpacity>
         </View>

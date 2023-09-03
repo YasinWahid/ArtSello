@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView }
 import Paintings from '../CategoryPages/Paintings';
 import KidsClothing from '../CategoryPages/Clothingkids';
 import FooterComponent from '../Nav/Footer';
+import DrawerNavigator from '../Nav/Drawer';
 
 const Home = ({ navigation }) => {
   const introImages = [
@@ -12,6 +13,7 @@ const Home = ({ navigation }) => {
   ];
 
   return (
+    
     <ScrollView contentContainerStyle={styles.container}>
       <FlatList
         data={introImages}
@@ -134,23 +136,23 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#E5FAFE',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '100%',
   },
   introText: {
+    color: '#87fa92',
     fontSize: 14,
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 20,
-    color: 'brown',
   },
   introText2: {
+    color: '#87fa92',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 40,
-    color: 'black',
   },
   image: {
     width: 300,
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#DCFBED',
+    color: '#87fa92',
   },
   categories: {
     marginBottom: 20,
