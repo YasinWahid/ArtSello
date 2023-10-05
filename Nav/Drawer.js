@@ -20,6 +20,8 @@ import AboutUsScreen from '../Screen/About';
 import PrivacyPolicyPage from '../Screen/Privacy';
 import Profile from '../Screen/Profile';
 import AddProductScreen from '../Screen/AddProduct';
+import MyListingsScreen from '../Screen/MyListings';
+import SettingsPage from '../Screen/Settings';
 
 const Drawer = createDrawerNavigator();
 
@@ -43,7 +45,14 @@ const CustomHeader = ({ navigation }) => {
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
-    screenOptions={{ header: (props) => <CustomHeader {...props} /> }}>
+    screenOptions={{
+      header: (props) => <CustomHeader {...props} />,
+      drawerStyle: {
+        backgroundColor: '#C1EA5F',
+      },
+      drawerActiveBackgroundColor: '#8FBE41', 
+      drawerActiveTintColor: 'white',
+    }}>
        <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Kids Clothing " component={KidsClothing} />
           <Drawer.Screen name="Mens Clothing " component={MensClothing} />
@@ -59,6 +68,8 @@ function DrawerNavigator() {
           <Drawer.Screen name="About Us" component={AboutUsScreen} />
           <Drawer.Screen name="AddProductScreen" component={AddProductScreen} options={{ drawerItemStyle: { display: 'none' }}}  />
           <Drawer.Screen name="Profile" component={Profile} options={{ drawerItemStyle: { display: 'none' }}}  />
+          <Drawer.Screen name="MyListings" component={MyListingsScreen} options={{ drawerItemStyle: { display: 'none' }}}  />
+          <Drawer.Screen name="Settings" component={SettingsPage} options={{ drawerItemStyle: { display: 'none' }}}  />
          </Drawer.Navigator>
   );
 }
@@ -80,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 40,
     paddingBottom: 10,
-    backgroundColor: 'black',
+    backgroundColor: '#1C1C1A',
   },
   menuIcon: {
     width: 30,

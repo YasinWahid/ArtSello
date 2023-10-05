@@ -1,15 +1,17 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import Paintings from '../CategoryPages/Paintings';
-import KidsClothing from '../CategoryPages/Clothingkids';
+import KidsClothingStack from '../ProductPage/ClothingkidsProductPage';
 import FooterComponent from '../Nav/Footer';
 import DrawerNavigator from '../Nav/Drawer';
 
 const Home = ({ navigation }) => {
   const introImages = [
-    { id: '1', image: require('../assets/intro1.png') },
-    { id: '2', image: require('../assets/intro2.jpg') },
-    { id: '3', image: require('../assets/intro3.jpg') },
+    { id: '1', image: require('../assets/slider1.jpeg') },
+    { id: '2', image: require('../assets/slider2.jpeg') },
+    { id: '3', image: require('../assets/slider3.jpeg') },
+    { id: '4', image: require('../assets/slider4.jpeg') },
+    { id: '5', image: require('../assets/slider5.jpeg') },
   ];
 
   return (
@@ -136,23 +138,23 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#1C1C1A',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '100%',
   },
   introText: {
-    color: '#87fa92',
-    fontSize: 14,
+    color: '#C1EA5F',
+    fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
   },
   introText2: {
-    color: '#87fa92',
-    fontSize: 20,
+    color: 'white',
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   image: {
     width: 300,
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#87fa92',
+    color: '#C1EA5F',
   },
   categories: {
     marginBottom: 20,

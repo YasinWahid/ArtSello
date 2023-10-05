@@ -6,6 +6,8 @@ import {  getAuth } from 'firebase/auth'; // Updated import statements
 import { app } from '../firebase';
 import LoginScreen from './LoginScreen';
 import MyListingsScreen from './MyListings';
+import FavoritePage from './Favorite';
+import SettingsPage from './Settings';
 
 const auth = getAuth(app);
 
@@ -24,12 +26,8 @@ const Profile = ({ navigation }) => {
         <Text style={styles.heading}> My Account</Text>
         <View style={styles.menu}>
           <Text style={styles.menuItem}>Name: <Text style={styles.menuItem2}>Hamza Khan</Text></Text>
-          <Text>Email: {auth.currentUser?.email}</Text>
-          <Text>Name: {auth.currentUser?.fullName}</Text>
-          <Text>Phone Number: {auth.currentUser?.password}</Text>
           <Text style={styles.menuItem}>Email: <Text style={styles.menuItem2}>hamza@gmail.com</Text></Text>
-          <Text style={styles.menuItem}>Gender: <Text style={styles.menuItem2}>Male</Text></Text>
-          <Text style={styles.menuItem}>Address: <Text style={styles.menuItem2}>****,Abbottabad, Kpk</Text></Text>
+          <Text style={styles.menuItem}>Contact: <Text style={styles.menuItem2}>030******77</Text></Text>
           <Text style={styles.menuItem}></Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -37,13 +35,13 @@ const Profile = ({ navigation }) => {
             <Text style={styles.buttonText}>My Listings</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Favorite</Text>
+            <Text style={styles.buttonText} onPress={() => navigation.navigate('Favorite')}>Favorite</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText} onPress={() => navigation.navigate('AddProductScreen')} >Add Product</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Settings</Text>
+            <Text style={styles.buttonText} onPress={() => navigation.navigate('Settings')}>Settings</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}  onPress={handleSignOut}>
             <Text style={styles.buttonText}>Log out</Text>
@@ -61,13 +59,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#E5FAFE',
+    backgroundColor: '#1C1C1A',
     padding: 20,
     paddingBottom: '100%', 
   },
   heading: {
     fontSize: 24,
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
@@ -75,47 +73,52 @@ const styles = StyleSheet.create({
     
   },
   menu: {
-    backgroundColor: '#7F9EAA',
+    backgroundColor: '#1C1C1A',
     padding: 10,
     marginBottom: 20,
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 5,
+    elevation: 9,
+    shadowColor: '#C1EA5F', // Shadow color
+    shadowOpacity: 1,
   },
   menuItem: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     letterSpacing: 2,
-    color: 'black',
+    color: 'white',
   },
   menuItem2: {
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     letterSpacing: 2,
-    color: '#DCFBED',
+    color: '#C1EA5F',
   },
   buttonContainer: {
     flexDirection: 'column',
+    marginTop: 10,
     
   },
   button: {
-    padding: 10,
     marginBottom: 20,
-    backgroundColor: '#18A6D8',
+    backgroundColor: '#1C1C1A',
     borderRadius: 8,
-    borderWidth: 1.5,
-    borderColor: 'black',
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginHorizontal: 5,
+    elevation: 9,
+    shadowColor: '#C1EA5F', // Shadow color
+    shadowOpacity: 1, // Shadow opacity
   },
   buttonText: {
-    fontWeight: 'bold',
     textAlign: 'center',
     letterSpacing: 2,
-    color: '#DCFBED',
-    fontSize: 14,
+    color: '#C1EA5F',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });
 

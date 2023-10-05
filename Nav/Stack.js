@@ -21,6 +21,8 @@ import AddProductScreen from '../Screen/AddProduct';
 import DrawerNavigator from './Drawer';
 import RegistrationScreen from '../Screen/RegScreen';
 import MyListingsScreen from '../Screen/MyListings';
+import FavoritePage from '../Screen/Favorite';
+import SettingsPage from '../Screen/Settings';
 
 const Stack = createStackNavigator();
 
@@ -28,10 +30,10 @@ function StackNavigator() {
   return (
     <NavigationContainer>
     <Stack.Navigator initialRouteName="Login"  screenOptions={{
-        headerMode: 'none',
+        headerMode: 'none', 
       }}>
-      {/* <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="RegScreen" component={RegistrationScreen} /> */}
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="RegScreen" component={RegistrationScreen} />
       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
       <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage} />
       <Stack.Screen name="ClothingmenProductPage" component={ClothingmenProductPage} />
@@ -45,6 +47,9 @@ function StackNavigator() {
       <Stack.Screen name="TraditionalInstrumentsProductPage" component={TraditionalInstrumentsProductPage} />
       <Stack.Screen name="AddProductScreen" component={AddProductScreen} />
       <Stack.Screen name="MyListings" component={MyListingsScreen} />
+      <Stack.Screen name="Favorite" component={FavoritePage} />
+      <Stack.Screen name="Settings" component={SettingsPage} />
+
     </Stack.Navigator>
       </NavigationContainer>
   );

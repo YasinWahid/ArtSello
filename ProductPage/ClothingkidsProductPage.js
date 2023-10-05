@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput, Button } fr
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import FooterComponent from '../Nav/Footer';
+import { styles } from '../styles/cat_pro_styles';
 
 const ProductCard = ({ imageSource, title, description, price }) => {
   const [rating, setRating] = useState(0);
@@ -89,20 +90,28 @@ const ProductCard = ({ imageSource, title, description, price }) => {
           value={review}
           onChangeText={handleReviewChange}
           multiline
+          placeholderTextColor={styles.inputPlaceholder.color}
         />
     <Text style={styles.inputLabel}>Name</Text>
     <TextInput
       style={styles.input}
+      placeholder="Please enter your name..."
       value={name}
       onChangeText={handleNameChange}
+      placeholderTextColor={styles.inputPlaceholder.color}
     />
         <Text style={styles.inputLabel}>Email</Text>
     <TextInput
       style={styles.input}
+      placeholder="Please enter your email..."
       value={email}
       onChangeText={handleEmailChange}
+      placeholderTextColor={styles.inputPlaceholder.color}
     />
-        <Button title="Submit" onPress={handleSubmit} />
+        <TouchableOpacity  title="Submit" style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText2}>Submit</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -125,97 +134,5 @@ const ClothingkidsProductPage = ({ route }) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E5FAFE',
-    marginVertical: 10,
-    paddingHorizontal: 20,
-    paddingBottom: '100%',
-  },
-  image: {
-    width: 350,
-    height: 300,
-    borderRadius: 4,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-  price: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginHorizontal: 5,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  reviewContainer: {
-    width: 350,
-    marginTop: 40,
-  },
-  reviewTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    alignItems: 'center',
-  },
-  ratingText: {
-    marginRight: 5,
-    fontWeight: 'bold',
-  },
-  starButton: {
-    marginRight: 5,
-  },
-  reviewInput: {
-    width: '100%',
-    height: 200,
-    borderColor: '#CCC',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 10,
-  },
-  input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#CCC',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-});
 
 export default ClothingkidsProductPage;

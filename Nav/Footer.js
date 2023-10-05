@@ -48,20 +48,20 @@ const styles = {
     fontSize: 14,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#C1EA5F',
   },
   textheader: {
     fontSize: 18,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#C1EA5F',
   },
   end: {
     fontSize: 12,
     marginTop: 10,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'white',
+    color: '#C1EA5F',
   },
 };
 

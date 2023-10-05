@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import PrintedPhotographyProductPage from '../ProductPage/PrintedPhotographyProductPage';
+import { styles } from '../styles/cat_pag_styles';
 
 const products = [
   { id: 1, name: 'Photo Strips', price: 'Rs.3,500', image: require('../assets/pp1.jpg'), description: 'this' },
@@ -72,67 +73,22 @@ const PrintedPhotography = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E5FAFE',
-  },
-  header: {
-    // Header styles
-  },
-  pageContent: {
-    flex: 1,
-  },
-  productList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    paddingBottom: '100%',
-  },
-  productItem: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 8,
-    padding: 8,
-    overflow: 'hidden',
-  },
-  imageContainer: {
-    borderColor: '#ccc',
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  productImage: {
-    width: '100%',
-    height: 160,
-  },
-  wishlistButton: {
-    position: 'absolute',
-    bottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  wishlistIcon: {
-    color: '#fff',
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  productPrice: {
-    fontSize: 14,
-    color: '#666',
-  },
-});
+
 
 const Stack = createStackNavigator();
 
 const PrintedPhotographyStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#C1EA5F',
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: 'black', 
+      textAlign: 'left',
+      
+    },
+  }}>
     <Stack.Screen name="Printed Photography" component={PrintedPhotography} />
     <Stack.Screen name="PrintedPhotographyProductPage" component={PrintedPhotographyProductPage} />
   </Stack.Navigator>

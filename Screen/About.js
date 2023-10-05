@@ -62,34 +62,39 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingBottom: '100%', 
-    backgroundColor: '#E5FAFE',
+    backgroundColor: '#1C1C1A',
   },
   heading: {
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: '#C1EA5F',
   },
   description: {
     fontSize: 16,
     marginBottom: 15,
     textAlign: 'justify',
     marginHorizontal: 15,
+    color: 'white',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginHorizontal: 10,
     marginBottom: 10,
+    color: '#C1EA5F',
   },
   reasonContainer: {
     marginTop: 10,
     marginHorizontal: 15,
     textAlign: 'justify',
+  
   },
   reason: {
     fontSize: 16,
     marginBottom: 10,
+    color: 'white',
   },
   teamTitle: {
     fontSize: 30,
@@ -97,6 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 20,
     textAlign: 'center',
+    color: '#C1EA5F',
   },
   teamContainer: {
     flexDirection: 'column',
@@ -116,6 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#C1EA5F',
   },
 });
 

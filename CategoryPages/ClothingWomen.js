@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import ClothingWomenProductPage from '../ProductPage/ClothingWomenProductPage';
+import { styles } from '../styles/cat_pag_styles';
 
 const products = [
   { id: 1, name: 'Ketifa Trendy Peach – Organza 3 Pcs Unstitched', price: 'Rs.3,500', image: require('../assets/womenc1.png'), description: 'this' },
@@ -72,67 +73,22 @@ const WomensClothing = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E5FAFE',
-  },
-  header: {
-    backgroundColor: '#DCFBED',
-  },
-  pageContent: {
-    flex: 1,
-  },
-  productList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    paddingBottom: '100%',
-  },
-  productItem: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 8,
-    padding: 8,
-    overflow: 'hidden',
-  },
-  imageContainer: {
-    borderColor: '#ccc',
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  productImage: {
-    width: '100%',
-    height: 160,
-  },
-  wishlistButton: {
-    position: 'absolute',
-    bottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  wishlistIcon: {
-    color: '#fff',
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  productPrice: {
-    fontSize: 14,
-    color: '#666',
-  },
-});
+
 
 const Stack = createStackNavigator();
 
 const WomensClothingStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#C1EA5F',
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: 'black', 
+      textAlign: 'left',
+      
+    },
+  }}>
     <Stack.Screen name="Women's Clothing" component={WomensClothing} />
     <Stack.Screen name="ClothingWomenProductPage" component={ClothingWomenProductPage} />
   </Stack.Navigator>

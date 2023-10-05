@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
+import { styles } from '../styles/cat_pag_styles';
 
 const products = [
   { id: 1, name: 'Malhaar - Arjumand-Kids - Kidswear', price: 'Rs.8,249', image: require('../assets/kidc1.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
@@ -72,67 +73,21 @@ const KidsClothing = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E5FAFE',
-  },
-  header: {
-    // Header styles
-  },
-  pageContent: {
-    flex: 1,
-  },
-  productList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    paddingBottom: '100%',
-  },
-  productItem: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 8,
-    padding: 8,
-    overflow: 'hidden',
-  },
-  imageContainer: {
-    borderColor: '#ccc',
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  productImage: {
-    width: '100%',
-    height: 160,
-  },
-  wishlistButton: {
-    position: 'absolute',
-    bottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  wishlistIcon: {
-    color: '#fff',
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  productPrice: {
-    fontSize: 14,
-    color: '#666',
-  },
-});
 
 const Stack = createStackNavigator();
 
 const KidsClothingStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#C1EA5F',
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: 'black', 
+      textAlign: 'left',
+      
+    },
+  }}>
     <Stack.Screen name="Kid's Clothings" component={KidsClothing} />
     <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage} />
   </Stack.Navigator>

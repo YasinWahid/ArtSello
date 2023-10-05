@@ -54,7 +54,7 @@ const PrivacyPolicyPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E5FAFE',
+    backgroundColor: '#1C1C1A',
     paddingBottom: '100%', 
   },
   heading: {
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 10,
     textAlign: 'center',
+    color: '#C1EA5F',
   },
   subHeading: {
     fontSize: 18,
@@ -70,12 +71,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     marginHorizontal: 10,
+    color: '#C1EA5F',
   },
   text: {
     fontSize: 16,
     marginBottom: 15,
      marginHorizontal: 20,
      textAlign: 'justify',
+     color: 'white',
   },
 });
 
