@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../Screen/Home';
 import LoginScreen from '../Screen/LoginScreen';
-
+import AdminPanel from '../Screen/AdminPanel';
 
 
 import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
@@ -32,9 +32,10 @@ function StackNavigator() {
     <Stack.Navigator initialRouteName="Login"  screenOptions={{
         headerMode: 'none', 
       }}>
-      <Stack.Screen name="Login" component={LoginScreen} />
+       <Stack.Screen name="Login" component={LoginScreen}  />
       <Stack.Screen name="RegScreen" component={RegistrationScreen} />
       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+      <Stack.Screen name="AdminPanel" component={AdminPanel} />
       <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage} />
       <Stack.Screen name="ClothingmenProductPage" component={ClothingmenProductPage} />
       <Stack.Screen name="ClothingWomenProductPage" component={ClothingWomenProductPage} />

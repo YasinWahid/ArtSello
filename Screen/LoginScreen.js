@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native';
-import {  getAuth,  signInWithEmailAndPassword } from 'firebase/auth'; // Updated import statements
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import DrawerNavigator from '../Nav/Drawer';
-import { color } from 'react-native-reanimated';
-
 
 const auth = getAuth(app);
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false); // State to track admin/user choice
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -22,30 +21,36 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-
-
   const handleLogin = () => {
     console.log('Login button clicked');
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('Logged in with:', user.email);
-        navigation.navigate(DrawerNavigator);
-      })
-      .catch(error => alert(error.message));
+    if (isAdmin) {
+      // Admin login with sample data
+      // You can customize this logic as needed
+      if (email === 'admin@gmail.com' && password === 'Admin123') {
+        const adminUser = { email: 'admin@example.com', isAdmin: true };
+        navigation.navigate('AdminPanel', { user: adminUser });
+      } else {
+        alert('Invalid admin credentials');
+      }
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          const user = userCredential.user;
+          console.log('Logged in with:', user.email);
+          navigation.navigate('DrawerNavigator');
+        })
+        .catch(error => alert(error.message));
+    }
   }
-
 
   const handleRegistration = () => {
     // Navigate to the registration page when the "Register" button is clicked.
     navigation.navigate('RegScreen');
   }
+
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-     <Text style={styles.logo}>ArtSello</Text> 
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Text style={styles.logo}>ArtSello</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -62,26 +67,35 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.radioContainer}>
         <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
+          style={styles.radioButton}
+          onPress={() => setIsAdmin(true)}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={isAdmin ? styles.radioTextChecked : styles.radioText}>Admin</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={handleRegistration}
+          style={styles.radioButton}
+          onPress={() => setIsAdmin(false)}
         >
+          <Text style={!isAdmin ? styles.radioTextChecked : styles.radioText}>User</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleLogin} style={styles.button}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleRegistration}>
           <Text style={styles.text}>Don't have an Account?</Text>
-          <Text style={styles.text2}>      Register Now</Text>
+          <Text style={styles.text2}> Register Now</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 }
-
-export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -119,19 +133,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
   buttonText: {
     color: 'black',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: '#87fa92',
     fontWeight: '700',
     fontSize: 16,
   },
@@ -148,4 +151,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10,
+  },
+  radioText: {
+    color: 'white',
+    fontSize: 16,
+    marginRight: 5,
+  },
+  radioTextChecked: {
+    color: '#87fa92',
+    fontSize: 16,
+    marginRight: 5,
+  },
 });
+
+export default LoginScreen;
