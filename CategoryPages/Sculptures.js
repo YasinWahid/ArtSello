@@ -89,7 +89,7 @@ const SculpturesStack = () => (
     },
   }}>
     <Stack.Screen name="Sculptures" component={Sculptures} />
-    <Stack.Screen name="SculpturesProductPage" component={SculpturesProductPage} />
+    <Stack.Screen name="SculpturesProductPage" component={SculpturesProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

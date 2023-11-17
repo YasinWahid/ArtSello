@@ -89,7 +89,7 @@ const TraditionalInstrumentsStack = () => (
     },
   }}>
     <Stack.Screen name="Traditional Instruments" component={TraditionalInstruments} />
-    <Stack.Screen name="TraditionalInstrumentsProductPage" component={TraditionalInstrumentsProductPage} />
+    <Stack.Screen name="TraditionalInstrumentsProductPage" component={TraditionalInstrumentsProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

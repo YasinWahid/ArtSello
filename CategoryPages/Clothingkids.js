@@ -1,26 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
 import { styles } from '../styles/cat_pag_styles';
-
-const products = [
-  { id: 1, name: 'Malhaar - Arjumand-Kids - Kidswear', price: 'Rs.8,249', image: require('../assets/kidc1.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 2, name: 'Ruby Garnet Clothing', price: 'Rs.4,499', image: require('../assets/kidc2.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 3, name: 'Garnet Clothing', price: 'Rs.3,749', image: require('../assets/kidc3.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 4, name: 'Cheeco Chic', price: 'Rs.3,600', image: require('../assets/kidc4.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 5, name: 'Fresh birds', price: 'Rs.2,848', image: require('../assets/kidc5.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 6, name: 'Garnet Clothing', price: 'Rs.3,500', image: require('../assets/kidc6.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 7, name: 'Garnet Clothing', price: 'Rs. 3,340', image: require('../assets/kidc7.png'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 8, name: 'KASHMIRI DRESS FOR GIRLS PAKISTANI CULTURAL - BLACK', price: 'Rs.2,750.00', image: require('../assets/kidc8.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 9, name: 'PASHTO PASHTUN DRESS FOR GIRLS PAKISTANI CULTURAL - MAROON', price: 'Rs.2,750.00', image: require('../assets/kidc9.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-  { id: 10, name: 'PASHTO PUKHTOON WAIST-COAT FOR KIDS PAKISTANI CULTURAL DRESS', price: 'Rs.1,750.00', image: require('../assets/kidc10.jpg'), description: 'This adorable dress is bursting with vibrant colors! Made with soft, breathable fabric, its perfect for twirling and playing. The pretty rainbow design will make any little girl feel like a magical princess' },
-];
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { app } from '../firebase';
 
 const KidsClothing = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const toggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
@@ -31,6 +21,32 @@ const KidsClothing = ({ navigation }) => {
   };
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
+
+  useEffect(() => {
+    // Retrieve product data from Firebase
+    const db = getFirestore(app);
+    const productsCollection = collection(db, 'products'); // Replace 'products' with your actual collection name
+
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(productsCollection);
+        const productsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          // Assuming you have a 'imageUrl' and 'category' field in your Firestore documents
+          const imageUrl = data.imageUrl; // Replace with the actual field name
+          return { ...data, imageUrl };
+        });
+
+        // Filter products with the category 'Kids Clothing'
+        const kidsClothingProducts = productsData.filter((product) => product.category === 'Kids Clothing');
+        setProducts(kidsClothingProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <ScrollView>
@@ -45,7 +61,7 @@ const KidsClothing = ({ navigation }) => {
                 onPress={() => navigation.navigate('ClothingkidsProductPage', { product: item })}
               >
                 <View style={styles.imageContainer}>
-                  <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+                  <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
                   <TouchableOpacity
                     style={[
                       styles.wishlistButton,
@@ -73,7 +89,6 @@ const KidsClothing = ({ navigation }) => {
   );
 };
 
-
 const Stack = createStackNavigator();
 
 const KidsClothingStack = () => (
@@ -83,13 +98,12 @@ const KidsClothingStack = () => (
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-      color: 'black', 
+      color: 'black',
       textAlign: 'left',
-      
     },
   }}>
     <Stack.Screen name="Kid's Clothings" component={KidsClothing} />
-    <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage} />
+    <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage}  options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

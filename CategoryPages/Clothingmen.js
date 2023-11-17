@@ -90,7 +90,7 @@ const  MensClothingStack = () => (
     },
   }}>
     <Stack.Screen name=" Men's Clothing" component={MensClothing} />
-    <Stack.Screen name="ClothingmenProductPage" component={ClothingmenProductPage} />
+    <Stack.Screen name="ClothingmenProductPage" component={ClothingmenProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

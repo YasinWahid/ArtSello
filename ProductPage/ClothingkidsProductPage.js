@@ -52,7 +52,7 @@ const ProductCard = ({ imageSource, title, description, price }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={imageSource} style={styles.image} />
+      <Image source={{ uri: imageSource }} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.price}> {price}</Text>
       <Text style={styles.description}>{description}</Text>
@@ -119,12 +119,12 @@ const ProductCard = ({ imageSource, title, description, price }) => {
 
 const ClothingkidsProductPage = ({ route }) => {
   const { product } = route.params;
-  const { image, name, price, description } = product;
+  const { imageUrl, name, price, description } = product;
   return (
     <ScrollView>
     <View style={styles.container}>
       <ProductCard
-        imageSource={image}
+        imageSource={imageUrl}
         title={name}
         description={description}
         price={price}

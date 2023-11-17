@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
-import { app } from '../firebase';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { app } from '../firebase';
+import { Picker } from '@react-native-picker/picker';
 
 class AddProductScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      category: '',
+      selectedCategory: 'Kids Clothing', // Initialize with the default category
       price: '',
       description: '',
       selectedImage: null,
@@ -38,7 +38,7 @@ class AddProductScreen extends Component {
   };
 
   handleAddProduct = async () => {
-    const { name, category, price, description, selectedImage } = this.state;
+    const { name, price, description, selectedImage, selectedCategory } = this.state;
     const storage = getStorage(app);
     const imageName = new Date().getTime().toString();
 
@@ -54,10 +54,10 @@ class AddProductScreen extends Component {
 
       const db = getFirestore(app);
 
-      // Add a new document to the 'products' collection with the image URL
+      // Add a new document to the 'products' collection with the image URL and selected category
       const docRef = await addDoc(collection(db, 'products'), {
         name,
-        category,
+        category: selectedCategory, // Include the selected category
         price,
         description,
         imageUrl,
@@ -68,7 +68,7 @@ class AddProductScreen extends Component {
       // Reset form fields and selected image
       this.setState({
         name: '',
-        category: '',
+        selectedCategory: 'Category 1', // Reset the selected category
         price: '',
         description: '',
         selectedImage: null,
@@ -87,24 +87,31 @@ class AddProductScreen extends Component {
           onChangeText={(text) => this.setState({ name: text })}
           style={styles.input}
         />
-
-        <TouchableOpacity title="Select Image" style={styles.button} onPress={this.openImagePicker}>
+         <Text style={styles.title}>Product Image</Text>
+         <TouchableOpacity title="Select Image" style={styles.button} onPress={this.openImagePicker}>
           <Text style={styles.buttonText2}>Select Image</Text>
         </TouchableOpacity>
-
+        
         {this.state.selectedImage && (
-          <Image
-            source={{ uri: this.state.selectedImage }}
-            style={{ width: 200, height: 200 }}
-          />
+          <Image source={{ uri: this.state.selectedImage }} style={{ width: 200, height: 200 }} />
         )}
-
+        
         <Text style={styles.title}>Product Category</Text>
-        <TextInput
-          value={this.state.category}
-          onChangeText={(text) => this.setState({ category: text })}
-          style={styles.input}
-        />
+        <Picker
+          selectedValue={this.state.selectedCategory}
+          onValueChange={(itemValue, itemIndex) => this.setState({ selectedCategory: itemValue })}
+          style={styles.picker} >
+          <Picker.Item label="Kids Clothing" value="Kids Clothing" />
+          <Picker.Item label="Mens Clothing" value="Mens Clothing" />
+          <Picker.Item label="Womens Clothing" value="Womens Clothing" />
+          <Picker.Item label="Jewellery" value="Jewellery" />
+          <Picker.Item label="Paintings" value="Paintings" />
+          <Picker.Item label="Pottery" value="Pottery" />
+          <Picker.Item label="Printed Photography" value="Printed Photography" />
+          <Picker.Item label="Scarves" value="Scarves" />
+          <Picker.Item label="Sculptures" value="Sculptures" />
+          <Picker.Item label="Traditional Instruments" value="Traditional Instruments" />
+        </Picker>
 
         <Text style={styles.title}>Product Price</Text>
         <TextInput
@@ -119,6 +126,9 @@ class AddProductScreen extends Component {
           onChangeText={(text) => this.setState({ description: text })}
           style={styles.input}
         />
+
+      
+
 
         <TouchableOpacity title="Add Product" style={styles.button} onPress={this.handleAddProduct}>
           <Text style={styles.buttonText2}>Add Product</Text>
@@ -168,6 +178,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  picker: {
+    color: 'black',
+    backgroundColor: 'white',
+    marginTop: 10,
+    marginBottom: 10,
+  }
 });
 
 export default AddProductScreen;

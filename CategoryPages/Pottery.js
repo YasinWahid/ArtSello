@@ -90,7 +90,7 @@ const PotteryStack = () => (
     },
   }}>
     <Stack.Screen name="Pottery" component={Pottery} />
-    <Stack.Screen name="PotteryProductPage" component={PotteryProductPage} />
+    <Stack.Screen name="PotteryProductPage" component={PotteryProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

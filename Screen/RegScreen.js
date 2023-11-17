@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'; // Updated import statements
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { app } from '../firebase';
+import { getFirestore, doc, setDoc } from '@firebase/firestore';
+
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const RegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -11,23 +14,29 @@ const RegistrationScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        // You can save additional user information like full name and phone number to your database here.
-        console.log('Registered with:', user.email);
-        navigation.navigate('Login'); // Navigate to the login page after successful registration.
-      })
-      .catch(error => alert(error.message));
-  }
+  const handleSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save additional user information to Firestore
+      const userDocRef = doc(db, 'Users', user.uid);
+      await setDoc(userDocRef, {
+        username: fullName,
+        email: email,
+        contact: phoneNumber,
+      });
+
+      console.log('Registered with:', user.email);
+      navigation.navigate('Login');
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-         <Text style={styles.logo}>ArtSello</Text> 
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Text style={styles.logo}>ArtSello</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Full Name"
@@ -58,24 +67,20 @@ const RegistrationScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.text}>Already have an Account?</Text>
           <Text style={styles.text2}>Login</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default RegistrationScreen;
+
 
 const styles = StyleSheet.create({
   container: {

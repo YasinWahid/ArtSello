@@ -90,7 +90,7 @@ const PrintedPhotographyStack = () => (
     },
   }}>
     <Stack.Screen name="Printed Photography" component={PrintedPhotography} />
-    <Stack.Screen name="PrintedPhotographyProductPage" component={PrintedPhotographyProductPage} />
+    <Stack.Screen name="PrintedPhotographyProductPage" component={PrintedPhotographyProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 
