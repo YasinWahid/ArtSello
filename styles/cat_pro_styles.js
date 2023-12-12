@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1C1C1A',
     paddingHorizontal: 20,
-    paddingBottom: '100%',
+    paddingBottom: '80%',
   },
   image: {
     marginTop: 10,
@@ -59,18 +59,20 @@ export const styles = StyleSheet.create({
   reviewContainer: {
     width: 350,
     marginTop: 40,
+    marginTop: 20,
     color: 'white',
+  },
+  reviewsBackground: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the opacity as needed
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 10,
   },
   reviewTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#C1EA5F',
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    alignItems: 'center',
   },
   ratingText: {
     marginRight: 5,
@@ -109,5 +111,37 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     color: '#C1EA5F',
+  },
+  reviewItem: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 8,
+    elevation: 5, // for shadow on Android
+    shadowColor: '#C1EA5F', // for shadow on iOS
+    shadowOffset: { width: 0, height: 2 }, // for shadow on iOS
+    shadowOpacity: 0.5, // for shadow on iOS
+    shadowRadius: 5, // for shadow on iOS
+  },
+  reviewItemContainer: {
+    marginBottom: 10,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+  reviewText: {
+    fontStyle: 'italic',
+    fontSize: 16,
+    color: 'black',
+
+  },
+  rating: {
+    marginRight: 10,
   },
 });

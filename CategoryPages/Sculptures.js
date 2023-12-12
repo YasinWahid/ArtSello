@@ -42,7 +42,7 @@ const Sculptures = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('ProductPage', { product: item })}
+                onPress={() => navigation.navigate('SculpturesProductPage', { product: item })}
               >
                 <View style={styles.imageContainer}>
                   <Image source={item.image} style={styles.productImage} resizeMode="cover" />

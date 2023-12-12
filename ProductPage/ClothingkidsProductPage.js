@@ -1,24 +1,44 @@
-import React, { useState } from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import FooterComponent from '../Nav/Footer';
 import { styles } from '../styles/cat_pro_styles';
+import { addToFavorites } from '../Screen/firestoreFunctions';
+import { Linking } from 'react-native';
 
-const ProductCard = ({ imageSource, title, description, price }) => {
+const ProductCard = ({ imageUrl, name, description, price, userContact }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
-  const [name, setName] = useState('');
+  const [reviewerName, setReviewerName] = useState(''); // Renamed from 'name'
   const [email, setEmail] = useState('');
 
   const handleWishlist = () => {
-    // Logic for handling wishlist button press
     console.log('Added to wishlist');
+    const productDetails = {
+      name,
+      description,
+      price,
+      imageUrl,
+      userContact, 
+      // Add other details as needed
+    };
+
+    addToFavorites(productDetails);
   };
 
   const handleContact = () => {
     // Logic for handling contact button press
-    console.log('Contact button pressed');
+    const phoneNumber = userContact; // Assuming the userContact object has a 'phone' field
+
+    if (phoneNumber) {
+      const dialpadUrl = `tel:${phoneNumber}`;
+      Linking.openURL(dialpadUrl)
+        .then(() => console.log('Dialpad opened successfully'))
+        .catch((error) => console.error('Error opening dialpad:', error));
+    } else {
+      console.warn('No phone number available for contact');
+    }
   };
 
   const handleStarRating = (selectedRating) => {
@@ -33,7 +53,7 @@ const ProductCard = ({ imageSource, title, description, price }) => {
 
   const handleNameChange = (text) => {
     // Logic for handling name input change
-    setName(text);
+    setReviewerName(text); // Updated from setName
   };
 
   const handleEmailChange = (text) => {
@@ -45,15 +65,16 @@ const ProductCard = ({ imageSource, title, description, price }) => {
     // Logic for handling form submission
     console.log('Submit button pressed');
     console.log('Name:', name);
-    console.log('Email:', email);
+    console.log('Email:', email); // Access contactInfo.email instead of email directly
     console.log('Rating:', rating);
     console.log('Review:', review);
+    console.log('Contact Information:', userContact);
   };
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: imageSource }} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
+      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <Text style={styles.title}>{name}</Text>
       <Text style={styles.price}> {price}</Text>
       <Text style={styles.description}>{description}</Text>
       <View style={styles.buttonContainer}>
@@ -117,17 +138,21 @@ const ProductCard = ({ imageSource, title, description, price }) => {
   );
 };
 
+
 const ClothingkidsProductPage = ({ route }) => {
   const { product } = route.params;
-  const { imageUrl, name, price, description } = product;
+  const { imageUrl, name, price, description, userContact } = product;
+
+
   return (
     <ScrollView>
     <View style={styles.container}>
       <ProductCard
-        imageSource={imageUrl}
-        title={name}
-        description={description}
-        price={price}
+       imageUrl={imageUrl}
+       name={name}
+          description={description}
+          price={price}
+          userContact={userContact}
       />
     </View>
     <FooterComponent/>

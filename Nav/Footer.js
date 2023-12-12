@@ -13,13 +13,22 @@ const FooterComponent = () => {
       />
 
       <Text style={styles.textheader}>Useful Links</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('About Us')} style={styles.box}>
-        <Text style={styles.text}>   About Us</Text>
+      
+      <TouchableOpacity
+        onPress={() => navigation.navigate('About Us')}
+        style={[styles.box, { marginTop: 10 }]} // Adjusted marginTop for consistent spacing
+      >
+        <Text style={styles.text}>About Us</Text>
       </TouchableOpacity>
-      <TouchableOpacity  onPress={() => navigation.navigate('Privacy Policy')} style={styles.box}>
-        <Text style={styles.text}>   Privacy Policy</Text>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Privacy Policy')}
+        style={styles.box}
+      >
+        <Text style={styles.text}>Privacy Policy</Text>
       </TouchableOpacity>
-      <Text style={styles.end}> @2020-2024 | ArtSello.com,Inc.</Text>
+
+      <Text style={styles.end}>@2020-2024 | ArtSello.com, Inc.</Text>
     </View>
   );
 };
@@ -30,29 +39,32 @@ const styles = {
     bottom: 0,
     width: '100%',
     justifyContent: 'center',
+    alignItems: 'center', // Center content horizontally
     backgroundColor: 'black',
   },
   logo: {
     marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-    width: 200,
+    marginBottom: 10, // Adjusted marginBottom for consistent spacing
+    width: 160,
     height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
     resizeMode: 'stretch',
   },
   box: {
-    padding: 10,
+    paddingVertical: 10, // Added paddingVertical for consistent padding
+    paddingHorizontal: 15,
     borderRadius: 5,
+    backgroundColor: '#1C1C1A', // Added a background color for better visibility
+    marginVertical: 5, // Adjusted marginVertical for consistent spacing
   },
   text: {
     fontSize: 14,
-    marginLeft: 10,
     fontWeight: 'bold',
     color: '#C1EA5F',
   },
   textheader: {
     fontSize: 18,
-    marginLeft: 10,
     fontWeight: 'bold',
     color: '#C1EA5F',
   },

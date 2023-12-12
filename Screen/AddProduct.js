@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView,View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -23,6 +23,10 @@ class AddProductScreen extends Component {
     if (status !== 'granted') {
       console.log('Permission to access media library was denied');
     }
+  
+    // Retrieve user details from route params
+    const { userEmail, userContact } = this.props.route.params;
+    // You can use userEmail and userContact as needed
   }
 
   openImagePicker = async () => {
@@ -39,6 +43,7 @@ class AddProductScreen extends Component {
 
   handleAddProduct = async () => {
     const { name, price, description, selectedImage, selectedCategory } = this.state;
+    const { userEmail, userContact } = this.props.route.params; // Retrieve user details from route params
     const storage = getStorage(app);
     const imageName = new Date().getTime().toString();
 
@@ -54,14 +59,16 @@ class AddProductScreen extends Component {
 
       const db = getFirestore(app);
 
-      // Add a new document to the 'products' collection with the image URL and selected category
-      const docRef = await addDoc(collection(db, 'products'), {
-        name,
-        category: selectedCategory, // Include the selected category
-        price,
-        description,
-        imageUrl,
-      });
+      // Add user details to the product document
+    const docRef = await addDoc(collection(db, 'products'), {
+      name,
+      category: selectedCategory,
+      price,
+      description,
+      imageUrl,
+      userEmail, // Include user email
+      userContact, // Include user contact
+    });
 
       console.log('Document written with ID: ', docRef.id);
 
@@ -80,7 +87,7 @@ class AddProductScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Text style={styles.title}>Product Name</Text>
         <TextInput
           value={this.state.name}
@@ -126,14 +133,10 @@ class AddProductScreen extends Component {
           onChangeText={(text) => this.setState({ description: text })}
           style={styles.input}
         />
-
-      
-
-
         <TouchableOpacity title="Add Product" style={styles.button} onPress={this.handleAddProduct}>
           <Text style={styles.buttonText2}>Add Product</Text>
         </TouchableOpacity>
-      </View>
+        </KeyboardAvoidingView>
     );
   }
 }

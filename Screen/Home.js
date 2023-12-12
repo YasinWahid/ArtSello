@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView }
 import Paintings from '../CategoryPages/Paintings';
 import KidsClothingStack from '../ProductPage/ClothingkidsProductPage';
 import FooterComponent from '../Nav/Footer';
-import DrawerNavigator from '../Nav/Drawer';
 
 const Home = ({ navigation }) => {
   const introImages = [

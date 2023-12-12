@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
     if (isAdmin) {
       // Admin login with sample data
       // You can customize this logic as needed
-      if (email === 'admin@gmail.com' && password === 'Admin123') {
+      if (email === 'Admin@gmail.com' && password === 'Admin123') {
         const adminUser = { email: 'admin@example.com', isAdmin: true };
         navigation.navigate('AdminPanel', { user: adminUser });
       } else {

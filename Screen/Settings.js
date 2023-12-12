@@ -21,14 +21,8 @@ const SettingsPage = () => {
           onValueChange={toggleNotifications}
         />
       </View>
-
-    
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
     </View>
-     
+    
   );
 };
 
@@ -53,17 +47,6 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 16,
     color: '#C1EA5F',
-  },
-  button: {
-    backgroundColor: 'red', // Customize with your app's color scheme
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white', // Customize with your app's color scheme
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 

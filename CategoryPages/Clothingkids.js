@@ -5,48 +5,89 @@ import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
 import { styles } from '../styles/cat_pag_styles';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { app } from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { addToFavorites } from '../Screen/firestoreFunctions';
+import ProductPage from '../ProductPage/ProductPage';
+
 
 const KidsClothing = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
   const [products, setProducts] = useState([]);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const toggleWishlist = (productId) => {
+  const toggleWishlist = async (productId) => {
     if (wishlist.includes(productId)) {
       setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
+
+      // Find the selected product
+      const selectedProduct = products.find((product) => product.id === productId);
+
+      // Extract only the required data
+      const { description, imageUrl, name, price, userContact } = selectedProduct;
+
+      // Call addToFavorites function to add the specific data to the wishlist
+      await addToFavorites({ description, imageUrl, name, price, userContact }, userDetails?.uid);
     }
   };
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
 
   useEffect(() => {
-    // Retrieve product data from Firebase
     const db = getFirestore(app);
-    const productsCollection = collection(db, 'products'); // Replace 'products' with your actual collection name
+    const productsCollection = collection(db, 'products');
 
     const fetchProducts = async () => {
       try {
         const querySnapshot = await getDocs(productsCollection);
         const productsData = querySnapshot.docs.map((doc) => {
           const data = doc.data();
-          // Assuming you have a 'imageUrl' and 'category' field in your Firestore documents
-          const imageUrl = data.imageUrl; // Replace with the actual field name
-          return { ...data, imageUrl };
+          const id = doc.id; // Get the Firestore document ID
+          const imageUrl = data.imageUrl;
+          return { id, ...data, imageUrl };
         });
 
-        // Filter products with the category 'Kids Clothing'
-        const kidsClothingProducts = productsData.filter((product) => product.category === 'Kids Clothing');
-        setProducts(kidsClothingProducts);
+        // Filter products with the category 'Kids Clothing' and userEmail not matching
+        const filteredProducts = productsData.filter(
+          (product) => product.category === 'Kids Clothing' && product.userEmail !== userDetails?.email
+        );
+        setProducts(filteredProducts);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, 'Users', user.uid);
+
+        try {
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserDetails(userData);
+          } else {
+            console.log('User document does not exist');
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      } else {
+        // Handle the case when the user is not logged in
+        setUserDetails(null);
+      }
+    });
+
     fetchProducts();
-  }, []);
+
+    // Cleanup the auth state listener when the component unmounts
+    return () => unsubscribe();
+  }, [userDetails?.email, wishlist]);
 
   return (
     <ScrollView>
@@ -58,7 +99,8 @@ const KidsClothing = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('ClothingkidsProductPage', { product: item })}
+                  onPress={() => navigation.navigate('ProductPage', { productId: item.id, product: item })}
+
               >
                 <View style={styles.imageContainer}>
                   <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
@@ -92,18 +134,19 @@ const KidsClothing = ({ navigation }) => {
 const Stack = createStackNavigator();
 
 const KidsClothingStack = () => (
-  <Stack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#C1EA5F',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      color: 'black',
-      textAlign: 'left',
-    },
-  }}>
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#C1EA5F',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'left',
+      },
+    }}
+  >
     <Stack.Screen name="Kid's Clothings" component={KidsClothing} />
-    <Stack.Screen name="ClothingkidsProductPage" component={ClothingkidsProductPage}  options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { StackNavigator } from './Stack';
+import { auth, firestore } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import Home from '../Screen/Home';
-import LoginScreen from '../Screen/LoginScreen';
 
 import Paintings from '../CategoryPages/Paintings';
 import KidsClothing from '../CategoryPages/Clothingkids';
@@ -22,38 +22,68 @@ import Profile from '../Screen/Profile';
 import AddProductScreen from '../Screen/AddProduct';
 import MyListingsScreen from '../Screen/MyListings';
 import SettingsPage from '../Screen/Settings';
+import FavoritePage from '../Screen/Favorite';
+import ProductPage from '../ProductPage/ProductPage';
 
 const Drawer = createDrawerNavigator();
 
-const CustomHeader = ({ navigation }) => {
+const CustomHeader = ({ navigation, profilePicture }) => {
   return (
     <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.openDrawer()}>
         <Image source={require('../assets/menu.png')} style={styles.menuIcon} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-      <Image source={require('../assets/logo1.png')} style={styles.logo} />
+        <Image source={require('../assets/logo1.png')} style={styles.logo} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
-      </TouchableOpacity>
+      {profilePicture && (
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Image source={{ uri: profilePicture }} style={styles.profileIcon} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
-
 function DrawerNavigator() {
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      const user = auth.currentUser;
+
+      if (user) {
+        try {
+          const userDocRef = doc(firestore, 'Users', user.uid);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            const profilePictureUrl = userData.profilePicture;
+            setProfilePicture(profilePictureUrl);
+          }
+        } catch (error) {
+          console.error('Error fetching profile picture:', error);
+        }
+      }
+    };
+
+    fetchProfilePicture();
+  }, []);
+
+
+
   return (
     <Drawer.Navigator
     screenOptions={{
-      header: (props) => <CustomHeader {...props} />,
+      header: (props) => <CustomHeader {...props} profilePicture={profilePicture} />,
       drawerStyle: {
         backgroundColor: '#C1EA5F',
       },
-      drawerActiveBackgroundColor: '#8FBE41', 
+      drawerActiveBackgroundColor: '#8FBE41',
       drawerActiveTintColor: 'white',
     }}>
-       <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Home" component={Home}  />
           <Drawer.Screen name="Kids Clothing " component={KidsClothing} />
           <Drawer.Screen name="Mens Clothing " component={MensClothing} />
           <Drawer.Screen name="Womens Clothing " component={WomensClothing} />
@@ -69,7 +99,9 @@ function DrawerNavigator() {
           <Drawer.Screen name="AddProductScreen" component={AddProductScreen} options={{ drawerItemStyle: { display: 'none' }}}  />
           <Drawer.Screen name="Profile" component={Profile} options={{ drawerItemStyle: { display: 'none' }}}  />
           <Drawer.Screen name="MyListings" component={MyListingsScreen} options={{ drawerItemStyle: { display: 'none' }}}  />
+          <Drawer.Screen name="Favorite" component={FavoritePage} options={{ drawerItemStyle: { display: 'none' }}}  />
           <Drawer.Screen name="Settings" component={SettingsPage} options={{ drawerItemStyle: { display: 'none' }}}  />
+          <Drawer.Screen name="ProductPage" component={ProductPage} options={{ drawerItemStyle: { display: 'none' }}}  />
          </Drawer.Navigator>
   );
 }
@@ -94,13 +126,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1A',
   },
   menuIcon: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
   },
   profileIcon: {
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     marginLeft: 45,
+    borderRadius: 60,
+    borderColor: '#C1EA5F',
+    borderWidth: 2,
   },
   logo: {
     width: 160,

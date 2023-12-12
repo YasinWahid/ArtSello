@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
 import ClothingmenProductPage from '../ProductPage/ClothingmenProductPage';
 import { styles } from '../styles/cat_pag_styles';
+import ProductPage from '../ProductPage/ProductPage';
 
 const products = [
   { id: 1, name: 'Embroidered Modal Satin Off White Men Sherwani With Dupatta', price: 'Rs.9999', image: require('../assets/menc1.png'), description: 'this' },
@@ -42,7 +43,7 @@ const MensClothing = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('ClothingmenProductPage', { product: item })}
+                onPress={() => navigation.navigate('ProductPage', { product: item })}
               >
                 <View style={styles.imageContainer}>
                   <Image source={item.image} style={styles.productImage} resizeMode="cover" />
@@ -90,7 +91,6 @@ const  MensClothingStack = () => (
     },
   }}>
     <Stack.Screen name=" Men's Clothing" component={MensClothing} />
-    <Stack.Screen name="ClothingmenProductPage" component={ClothingmenProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 
