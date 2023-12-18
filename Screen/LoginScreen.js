@@ -3,6 +3,8 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import DrawerNavigator from '../Nav/Drawer';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+
 
 const auth = getAuth(app);
 
@@ -21,27 +23,45 @@ const LoginScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log('Login button clicked');
     if (isAdmin) {
       // Admin login with sample data
       // You can customize this logic as needed
       if (email === 'Admin@gmail.com' && password === 'Admin123') {
-        const adminUser = { email: 'admin@example.com', isAdmin: true };
+        const adminUser = { email: 'Admin@gmail.com', isAdmin: true };
         navigation.navigate('AdminPanel', { user: adminUser });
       } else {
         alert('Invalid admin credentials');
       }
     } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          const user = userCredential.user;
-          console.log('Logged in with:', user.email);
-          navigation.navigate('DrawerNavigator');
-        })
-        .catch(error => alert(error.message));
+      const db = getFirestore(app);
+      
+      try {
+        // Check if the user is blocked in Firestore
+        const usersCollection = collection(db, 'Users');
+        const q = query(usersCollection, where('email', '==', email), where('blocked', '==', false));
+        const querySnapshot = await getDocs(q);
+  
+        if (querySnapshot.empty) {
+          // User not found or blocked
+          alert('Invalid credentials or blocked user');
+        } else {
+          // User is not blocked, proceed with sign in
+          signInWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
+              const user = userCredential.user;
+              console.log('Logged in with:', user.email);
+              navigation.replace('DrawerNavigator');
+            })
+            .catch(error => alert(error.message));
+        }
+      } catch (error) {
+        console.error('Error checking user details:', error);
+        alert('An error occurred. Please try again.');
+      }
     }
-  }
+  };
 
   const handleRegistration = () => {
     // Navigate to the registration page when the "Register" button is clicked.

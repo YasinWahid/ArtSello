@@ -1,36 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
-import PotteryProductPage from '../ProductPage/PotteryProductPage';
 import { styles } from '../styles/cat_pag_styles';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { app } from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { addToFavorites } from '../Screen/firestoreFunctions';
+import ProductPage from '../ProductPage/ProductPage';
 
-const products = [
-  { id: 1, name: 'Handmade concave blue pottery mug with lid', price: 'Rs.989', image: require('../assets/pot1.jpg'), description: 'this' },
-  { id: 2, name: 'Clay Pottery Valuables & Daily Essentials Pot  ', price: 'Rs.4,670', image: require('../assets/pot2.jpg'), description: 'this' },
-  { id: 3, name: 'Blue Pottery Flower Vase  ', price: 'Rs. 6,780', image: require('../assets/pot3.jpg'), description: 'this' },
-  { id: 4, name: 'Blue Pottery Wall Hanging Rectangle  ', price: 'Rs.1,280', image: require('../assets/pot4.jpg'), description: 'this' },
-  { id: 5, name: 'Bismillah Blue Pottery Plate  ', price: 'Rs.7,560', image: require('../assets/pot5.jpg'), description: 'this' },
-  { id: 6, name: 'Blue Pottery Birds Nest  ', price: 'Rs.1,480', image: require('../assets/pot6.jpg'), description: 'this' },
-  { id: 7, name: 'Gava Arabian Tea Set  ', price: 'Rs.1,350', image: require('../assets/pot7.jpg'), description: 'this' },
-  { id: 8, name: 'Blue Pottery pomegranate handmade  ', price: 'Rs.1,450', image: require('../assets/pot8.jpg'), description: 'this' },
-  { id: 9, name: 'Floor Pottery Vase  ', price: 'Rs.1,280', image: require('../assets/pot9.jpg'), description: 'this' },
-  { id: 10, name: 'Lapis Lazuli Floor Blue Pottery Vase  ', price: 'Rs.3,580', image: require('../assets/pot10.jpg'), description: 'this' },
-];
 
 const Pottery = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const toggleWishlist = (productId) => {
+  const toggleWishlist = async (productId) => {
     if (wishlist.includes(productId)) {
       setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
+  
+      // Find the selected product
+      const selectedProduct = products.find((product) => product.id === productId);
+  
+      // Fetch the userContact from the Users collection
+      try {
+        const userRef = doc(getFirestore(app), 'Users', userDetails?.uid);
+        const userDoc = await getDoc(userRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const userContact = userData.contact;
+  
+          // Extract only the required data
+          const { description, imageUrl, name, price } = selectedProduct;
+  
+          // Add userContact to the selected product
+          const productWithUserContact = { description, imageUrl, name, price, userContact };
+  
+          // Call addToFavorites function to add the specific data to the wishlist
+          await addToFavorites(productWithUserContact, userDetails?.uid);
+        } else {
+          console.log('User document does not exist');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
     }
   };
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
+
+  useEffect(() => {
+    const db = getFirestore(app);
+    const productsCollection = collection(db, 'products');
+
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(productsCollection);
+        const productsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const id = doc.id; // Get the Firestore document ID
+          const imageUrl = data.imageUrl;
+          return { id, ...data, imageUrl };
+        });
+
+        // Filter products with the category 'Kids Clothing' and userEmail not matching
+        const filteredProducts = productsData.filter(
+          (product) => product.category === 'Pottery' && product.userEmail !== userDetails?.email
+        );
+        setProducts(filteredProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, 'Users', user.uid);
+
+        try {
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserDetails(userData);
+          } else {
+            console.log('User document does not exist');
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      } else {
+        // Handle the case when the user is not logged in
+        setUserDetails(null);
+      }
+    });
+
+    fetchProducts();
+
+    // Cleanup the auth state listener when the component unmounts
+    return () => unsubscribe();
+  }, [userDetails?.email, wishlist]);
 
   return (
     <ScrollView>
@@ -42,10 +116,11 @@ const Pottery = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('PotteryProductPage', { product: item })}
+                  onPress={() => navigation.navigate('ProductPage', { productId: item.id, product: item })}
+
               >
                 <View style={styles.imageContainer}>
-                  <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+                  <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
                   <TouchableOpacity
                     style={[
                       styles.wishlistButton,
@@ -73,24 +148,11 @@ const Pottery = ({ navigation }) => {
   );
 };
 
-
-
 const Stack = createStackNavigator();
 
 const PotteryStack = () => (
-  <Stack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#C1EA5F',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      color: 'black', 
-      textAlign: 'left',
-      
-    },
-  }}>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Pottery" component={Pottery} />
-    <Stack.Screen name="PotteryProductPage" component={PotteryProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

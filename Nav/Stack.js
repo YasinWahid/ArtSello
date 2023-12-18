@@ -15,8 +15,9 @@ function StackNavigator() {
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen}  />
       <Stack.Screen name="RegScreen" component={RegistrationScreen} />
+      <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} screenOptions={{ headerShown: false }}/>
       <Stack.Screen name="AdminPanel" component={AdminPanel} />
-      <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+      
      
       </Stack.Navigator>
     </NavigationContainer>

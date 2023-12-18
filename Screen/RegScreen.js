@@ -52,6 +52,7 @@ const RegistrationScreen = ({ navigation }) => {
         email: email,
         contact: phoneNumber,
         profilePicture: imageUrl,
+        blocked: false,
       });
   
       console.log('Registered with:', user.email);

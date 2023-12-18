@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
-import ClothingkidsProductPage from '../ProductPage/ClothingkidsProductPage';
 import { styles } from '../styles/cat_pag_styles';
-import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc, addDoc} from 'firebase/firestore';
 import { app } from '../firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addToFavorites } from '../Screen/firestoreFunctions';
@@ -22,17 +21,37 @@ const KidsClothing = ({ navigation }) => {
       setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
-
+  
       // Find the selected product
       const selectedProduct = products.find((product) => product.id === productId);
-
-      // Extract only the required data
-      const { description, imageUrl, name, price, userContact } = selectedProduct;
-
-      // Call addToFavorites function to add the specific data to the wishlist
-      await addToFavorites({ description, imageUrl, name, price, userContact }, userDetails?.uid);
+  
+      // Fetch the userContact from the Users collection
+      try {
+        const userRef = doc(getFirestore(app), 'Users', userDetails?.uid);
+        const userDoc = await getDoc(userRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const userContact = userData.contact;
+  
+          // Extract only the required data
+          const { description, imageUrl, name, price } = selectedProduct;
+  
+          // Add userContact to the selected product
+          const productWithUserContact = { description, imageUrl, name, price, userContact };
+  
+          // Call addToFavorites function to add the specific data to the wishlist
+          await addToFavorites(productWithUserContact, userDetails?.uid);
+        } else {
+          console.log('User document does not exist');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
     }
   };
+  
+  
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
 
@@ -134,19 +153,8 @@ const KidsClothing = ({ navigation }) => {
 const Stack = createStackNavigator();
 
 const KidsClothingStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#C1EA5F',
-      },
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: 'black',
-        textAlign: 'left',
-      },
-    }}
-  >
-    <Stack.Screen name="Kid's Clothings" component={KidsClothing} />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+       <Stack.Screen name="Kid's Clothings" component={KidsClothing}  />
   </Stack.Navigator>
 );
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import Paintings from '../CategoryPages/Paintings';
-import KidsClothingStack from '../ProductPage/ClothingkidsProductPage';
 import FooterComponent from '../Nav/Footer';
 
 const Home = ({ navigation }) => {

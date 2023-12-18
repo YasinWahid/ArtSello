@@ -1,36 +1,111 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
-import SculpturesProductPage from '../ProductPage/SculpturesProductPage';
 import { styles } from '../styles/cat_pag_styles';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { app } from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { addToFavorites } from '../Screen/firestoreFunctions';
+import ProductPage from '../ProductPage/ProductPage';
 
-const products = [
-  { id: 1, name: 'Bird Figurine- Pink  ', price: 'Rs.3,780', image: require('../assets/scul1.jpg'), description: 'this' },
-  { id: 2, name: 'Toucan Bird Figurine  ', price: 'Rs.3,650', image: require('../assets/scul2.jpg'), description: 'this' },
-  { id: 3, name: 'Antique Porcelain Floor Vase with Blue Stone- Large  ', price: 'Rs.3,500', image: require('../assets/scul3.jpg'), description: 'this' },
-  { id: 4, name: 'Flamingo Figurine  ', price: 'Rs.2,500', image: require('../assets/scul4.jpg'), description: 'this' },
-  { id: 5, name: 'Lion With Crown Figurine – Large  ', price: 'Rs.13,500', image: require('../assets/scul5.jpg'), description: 'this' },
-  { id: 6, name: 'Apollo Statue Face – Grey', price: 'Rs.23,500', image: require('../assets/scul6.jpg'), description: 'this' },
-  { id: 7, name: 'Lion Figurine', price: 'Rs.31,500', image: require('../assets/scul7.jpg'), description: 'this' },
-  { id: 8, name: 'Lion With Crown Figurine – Medium', price: 'Rs.32,500', image: require('../assets/scul 8.jpg'), description: 'this' },
-  { id: 9, name: 'Deer Face Figurine  ', price: 'Rs.28,800', image: require('../assets/scul9.jpg'), description: 'this' },
-  { id: 10, name: 'Deer Figurine – Pair', price: 'Rs.3,5000', image: require('../assets/scul10.jpg'), description: 'this' },
-];
 
 const Sculptures = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const toggleWishlist = (productId) => {
+  const toggleWishlist = async (productId) => {
     if (wishlist.includes(productId)) {
       setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
+  
+      // Find the selected product
+      const selectedProduct = products.find((product) => product.id === productId);
+  
+      // Fetch the userContact from the Users collection
+      try {
+        const userRef = doc(getFirestore(app), 'Users', userDetails?.uid);
+        const userDoc = await getDoc(userRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const userContact = userData.contact;
+  
+          // Extract only the required data
+          const { description, imageUrl, name, price } = selectedProduct;
+  
+          // Add userContact to the selected product
+          const productWithUserContact = { description, imageUrl, name, price, userContact };
+  
+          // Call addToFavorites function to add the specific data to the wishlist
+          await addToFavorites(productWithUserContact, userDetails?.uid);
+        } else {
+          console.log('User document does not exist');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
     }
   };
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
+
+  useEffect(() => {
+    const db = getFirestore(app);
+    const productsCollection = collection(db, 'products');
+
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(productsCollection);
+        const productsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const id = doc.id; // Get the Firestore document ID
+          const imageUrl = data.imageUrl;
+          return { id, ...data, imageUrl };
+        });
+
+        // Filter products with the category 'Kids Clothing' and userEmail not matching
+        const filteredProducts = productsData.filter(
+          (product) => product.category === 'Sculptures' && product.userEmail !== userDetails?.email
+        );
+        setProducts(filteredProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, 'Users', user.uid);
+
+        try {
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserDetails(userData);
+          } else {
+            console.log('User document does not exist');
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      } else {
+        // Handle the case when the user is not logged in
+        setUserDetails(null);
+      }
+    });
+
+    fetchProducts();
+
+    // Cleanup the auth state listener when the component unmounts
+    return () => unsubscribe();
+  }, [userDetails?.email, wishlist]);
 
   return (
     <ScrollView>
@@ -42,10 +117,11 @@ const Sculptures = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('SculpturesProductPage', { product: item })}
+                  onPress={() => navigation.navigate('ProductPage', { productId: item.id, product: item })}
+
               >
                 <View style={styles.imageContainer}>
-                  <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+                  <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
                   <TouchableOpacity
                     style={[
                       styles.wishlistButton,
@@ -73,23 +149,11 @@ const Sculptures = ({ navigation }) => {
   );
 };
 
-
 const Stack = createStackNavigator();
 
 const SculpturesStack = () => (
-  <Stack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#C1EA5F',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      color: 'black', 
-      textAlign: 'left',
-      
-    },
-  }}>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Sculptures" component={Sculptures} />
-    <Stack.Screen name="SculpturesProductPage" component={SculpturesProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

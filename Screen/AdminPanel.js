@@ -1,21 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
+import { View,ScrollView, Text, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { collection, getDocs, doc, deleteDoc, where,updateDoc,} from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, updateDoc,} from 'firebase/firestore';
 import { firestore } from '../firebase';
-import { getAuth, deleteUser, fetchSignInMethodsForEmail, signInWithEmailAndPassword } from 'firebase/auth';
 
 const Tab = createBottomTabNavigator();
 
-const ManageUsers = ({ users, onDeleteUser, onBlockUser }) => {
+
+const Logout = ({ onLogout }) => {
+  // Static data for the admin (replace with your actual admin data)
+  const adminData = {
+    name: 'Admin',
+    email: 'Admin@gmail.com',
+    profilePicture: require('../assets/dev1.jpg'), // Import from assets folder
+  };
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.adminPanelHeader}>Admin Panel | Logout</Text>
+  
+        {/* Display Admin Information */}
+        <View style={styles.menu}>
+        <View style={styles.adminInfoContainer}>
+          <View style={styles.profileBox}>
+            <Image source={adminData.profilePicture} style={styles.adminProfilePicture} />
+          </View>
+          <View style={styles.adminInfo}>
+            <Text style={styles.adminName}>{adminData.name}</Text>
+            <Text style={styles.adminEmail}>{adminData.email}</Text>
+          </View>
+        </View>
+        </View>
+        {/* Logout Button */}
+        <Button title="Logout" onPress={onLogout} color="red" />
+      </View>
+    );
+  };
+
+const ManageUsers = ({ users, onBlockUser, onUnblockUser }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+       <Text style={styles.adminPanelHeader}>Admin Panel | Manage Users</Text>
+      <View style={styles.mainHeader}>
       <View style={styles.tableHeader}>
-        <Text style={styles.headerText}>Username</Text>
+        <Text style={styles.headerText}>Name</Text>
+      </View>
+      <View style={styles.tableHeader}>
         <Text style={styles.headerText}>Email</Text>
-        <Text style={styles.headerText}>Profile Picture</Text>
+      </View>
+      <View style={styles.tableHeader}>
+        <Text style={styles.headerText}>Picture</Text>
+      </View>
+      <View style={styles.tableHeader}>
         <Text style={styles.headerText}>Actions</Text>
+      </View>
       </View>
       {users.map((user) => (
         <View style={styles.tableContent} key={user.id}>
@@ -25,27 +64,40 @@ const ManageUsers = ({ users, onDeleteUser, onBlockUser }) => {
           </View>
           <Image source={{ uri: user.profilePicture }} style={styles.profilePicture} />
           <View style={styles.actions}>
-            <TouchableOpacity onPress={() => onBlockUser(user.id)}>
-              <Text style={styles.blockButton}>B</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => onDeleteUser(user.id, user.email)}>
-              <Text style={styles.deleteButton}>X</Text>
-            </TouchableOpacity>
+            {!user.blocked ? (
+              <TouchableOpacity onPress={() => onBlockUser(user.id)}>
+                <Text style={styles.blockButton}>B</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => onUnblockUser(user.id)}>
+                <Text style={styles.unblockButton}>UB</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
+
 const ManageProducts = ({ products, onDeleteProduct }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+       <Text style={styles.adminPanelHeader}>Admin Panel | Manage Products</Text>
+        <View style={styles.mainHeader}>
       <View style={styles.tableHeader}>
-        <Text style={styles.headerText}>Title</Text>
-        <Text style={styles.headerText}>Price</Text>
-        <Text style={styles.headerText}>Image</Text>
+      <Text style={styles.headerText}>Title</Text>
+      </View>
+      <View style={styles.tableHeader}>
+      <Text style={styles.headerText}>Price</Text>
+      </View>
+      <View style={styles.tableHeader}>
+        <Text style={styles.headerText}>Picture</Text>
+      </View>
+      <View style={styles.tableHeader}>
         <Text style={styles.headerText}>Actions</Text>
+      </View>
       </View>
       {products.map((product, index) => (
         <View style={styles.tableContent} key={product.id}>
@@ -57,7 +109,7 @@ const ManageProducts = ({ products, onDeleteProduct }) => {
           </TouchableOpacity>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -86,51 +138,50 @@ const AdminPanel = () => {
     getUsers();
     getProducts();
   }, []);
-
-  const handleDeleteUser = async (userId, userEmail) => {
-    try {
-      const auth = getAuth();
-  
-      // Delete user from Firebase Authentication using the provided email
-      await deleteUser(auth, userEmail);
-  
-      // Delete user document from Firestore
-      const userRef = doc(firestore, 'Users', userId);
-      await deleteDoc(userRef);
-  
-      // Update state to reflect the deletion
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-  
-      console.log(`User with ID ${userId} and email ${userEmail} has been deleted.`);
-    } catch (error) {
-      console.error('Error deleting user:', error.message);
-      // Handle the error appropriately (e.g., show an error message to the user)
-    }
-  };
-  
-  
   
 
   const handleBlockUser = async (userId) => {
     try {
       const userRef = doc(firestore, 'Users', userId);
-
+  
       // Assuming you have a 'blocked' field in your user document
       await updateDoc(userRef, {
         blocked: true,
       });
-
+  
       // Update the state to reflect the blocked status
       const updatedUsers = users.map((user) =>
         user.id === userId ? { ...user, blocked: true } : user
       );
       setUsers(updatedUsers);
-
+  
       console.log(`User with ID ${userId} has been blocked.`);
     } catch (error) {
       console.error('Error blocking user:', error);
     }
   };
+  
+  const handleUnblockUser = async (userId) => {
+    try {
+      const userRef = doc(firestore, 'Users', userId);
+  
+      // Assuming you have a 'blocked' field in your user document
+      await updateDoc(userRef, {
+        blocked: false,
+      });
+  
+      // Update the state to reflect the unblocked status
+      const updatedUsers = users.map((user) =>
+        user.id === userId ? { ...user, blocked: false } : user
+      );
+      setUsers(updatedUsers);
+  
+      console.log(`User with ID ${userId} has been unblocked.`);
+    } catch (error) {
+      console.error('Error unblocking user:', error);
+    }
+  };
+  
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -157,27 +208,26 @@ const AdminPanel = () => {
           <Image source={require('../assets/logo1.png')} style={styles.logo} />
         </View>
       </View>
-      <Text style={styles.adminPanelHeader}>Admin Panel</Text>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Manage Users"
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Image
-                source={require('../assets/man-product.png')}
-                style={{ tintColor: color, width: 24, height: 24 }}
-              />
-            ),
-          }}
-        >
-          {() => (
-            <ManageUsers
-              users={users}
-              onDeleteUser={(userId, userEmail) => handleDeleteUser(userId, userEmail)}
-              onBlockUser={(userId) => handleBlockUser(userId)}
-            />
-          )}
-        </Tab.Screen>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen
+  name="Manage Users"
+  options={{
+    tabBarIcon: ({ color }) => (
+      <Image
+        source={require('../assets/man-product.png')}
+        style={{ tintColor: color, width: 24, height: 24 }}
+      />
+    ),
+  }}
+>
+  {() => (
+    <ManageUsers
+      users={users}
+      onBlockUser={(userId) => handleBlockUser(userId)}
+      onUnblockUser={(userId) => handleUnblockUser(userId)}
+    />
+  )}
+</Tab.Screen>
         <Tab.Screen
           name="Manage Products"
           options={{
@@ -199,7 +249,7 @@ const AdminPanel = () => {
             ),
           }}
         >
-          {() => <Button title="Logout" onPress={handleLogout} color="red" />}
+          {() => <Logout onLogout={handleLogout} />}
         </Tab.Screen>
       </Tab.Navigator>
     </View>
@@ -213,8 +263,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   tableHeader: {
-    flexDirection: 'row',
-    marginBottom: 10,
+    flex: 1,
+    margin: 1,
+    height: 50,
+    marginBottom:10,
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 5,
@@ -222,6 +274,16 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderBottomWidth: 2,
     borderBottomColor: '#C1EA5F',
+  },
+  headerText: {
+    color: '#1C1C1A', // Text color for header text
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+  },
+  mainHeader: {
+    flexDirection: 'row',
   },
   tableContent: {
     flexDirection: 'row',
@@ -235,13 +297,6 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: 20,
-  },
-  headerText: {
-    color: '#1C1C1A', // Text color for header text
-    fontSize: 16,
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center',
   },
   logoContainer: {
     justifyContent: 'center',
@@ -257,6 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 20,
   },
   name: {
     color: 'black',
@@ -280,9 +336,12 @@ const styles = StyleSheet.create({
   deleteButton: {
     width: 24,
     height: 24,
+    fontSize: 17,
     textAlign: 'center',
-    color: 'white',
-    backgroundColor: 'red',
+    color: 'black',
+    fontWeight: 'bold',
+    margin:20,
+    backgroundColor: '#fc6d6d',
   },
   item: {
     marginBottom: 15,
@@ -293,7 +352,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 10,
-    marginRight: 50,
+    marginRight: 30,
   },
   productDetails: {
     flex: 1,
@@ -313,12 +372,67 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   blockButton: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
+    fontSize: 17,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
+    fontWeight: 'bold',
     marginRight: 5,
     backgroundColor: 'lightblue',
+  },
+  unblockButton:{
+    width: 30,
+    height: 30,
+    fontSize: 17,
+    textAlign: 'center',
+    color: 'black',
+    fontWeight: 'bold',
+    marginRight: 5,
+    backgroundColor: '#fc6d6d',
+  },
+  adminInfoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  profileBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 100,
+    borderRadius: 50, // Make it circular
+    backgroundColor: '#C1EA5F', // You can change the background color
+    overflow: 'hidden', // Ensure content is clipped to the border
+    marginBottom: 10,
+  },
+  adminProfilePicture: {
+    width: 96,
+    height: 96,
+    borderRadius: 70,
+  },
+  adminInfo: {
+    alignItems: 'center',
+  },
+  adminName: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  adminEmail: {
+    color: 'lightgray',
+    fontSize: 16,
+  },
+  menu: {
+    backgroundColor: '#1C1C1A',
+    padding: 10,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 5,
+    elevation: 9,
+    shadowColor: '#C1EA5F',
+    shadowOpacity: 1,
   },
 });
 

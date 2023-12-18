@@ -1,36 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import FooterComponent from '../Nav/Footer';
-import TraditionalInstrumentsProductPage from '../ProductPage/TraditionalInstrumentsProductPage';
 import { styles } from '../styles/cat_pag_styles';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { app } from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { addToFavorites } from '../Screen/firestoreFunctions';
+import ProductPage from '../ProductPage/ProductPage';
 
-const products = [
-  { id: 1, name: 'Classic Acoustic Guitar 38 Inch Blue Color with 3 Picks  ', price: 'Rs.3,500', image: require('../assets/ti1.png'), description: 'this' },
-  { id: 2, name: 'Linden Wooden Violin with Case, Bow, Adjusters and Rosin  ', price: 'Rs.3,650', image: require('../assets/ti2.png'), description: 'this' },
-  { id: 3, name: 'Yamaha Arius Digital Piano YDP-103 88 Key  ', price: 'Rs.2,500', image: require('../assets/ti3.png'), description: 'this' },
-  { id: 4, name: 'Yamaha Digital Piano P-45 88 Keys Stage Piano  ', price: 'Rs.1,500', image: require('../assets/ti4.png'), description: 'this' },
-  { id: 5, name: 'Filmi Dholak Black Sheesham Wooden Dholak with Brass Hooks  ', price: 'Rs.3,800', image: require('../assets/ti5.png'), description: 'this' },
-  { id: 6, name: 'High Quality Filmi Dholak Simple Metal Hooks  ', price: 'Rs.4,500', image: require('../assets/ti6.png'), description: 'this' },
-  { id: 7, name: 'Local Brand World Percussion Desi Dafli 8 Inch for Wedding Purposes  ', price: 'Rs.6,500', image: require('../assets/ti7.png'), description: 'this' },
-  { id: 8, name: 'High Quality Wooden Naal with Metal Hooks  ', price: 'Rs.7,500', image: require('../assets/ti8.png'), description: 'this' },
-  { id: 9, name: 'High Quality Wooden Dholki, Mehndi Dholki, Dholak With Metal Hooks  ', price: 'Rs.9,500', image: require('../assets/ti9.png'), description: 'this' },
-  { id: 10, name: 'High Quality Wooden Dholki, Mehndi Dholki, Dholak With Metal Hooks  ', price: 'Rs.13,500', image: require('../assets/ti9.png'), description: 'this' },
-];
 
 const TraditionalInstruments = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const toggleWishlist = (productId) => {
+  const toggleWishlist = async (productId) => {
     if (wishlist.includes(productId)) {
       setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
+  
+      // Find the selected product
+      const selectedProduct = products.find((product) => product.id === productId);
+  
+      // Fetch the userContact from the Users collection
+      try {
+        const userRef = doc(getFirestore(app), 'Users', userDetails?.uid);
+        const userDoc = await getDoc(userRef);
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const userContact = userData.contact;
+  
+          // Extract only the required data
+          const { description, imageUrl, name, price } = selectedProduct;
+  
+          // Add userContact to the selected product
+          const productWithUserContact = { description, imageUrl, name, price, userContact };
+  
+          // Call addToFavorites function to add the specific data to the wishlist
+          await addToFavorites(productWithUserContact, userDetails?.uid);
+        } else {
+          console.log('User document does not exist');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
     }
   };
 
   const isProductInWishlist = (productId) => wishlist.includes(productId);
+
+  useEffect(() => {
+    const db = getFirestore(app);
+    const productsCollection = collection(db, 'products');
+
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(productsCollection);
+        const productsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const id = doc.id; // Get the Firestore document ID
+          const imageUrl = data.imageUrl;
+          return { id, ...data, imageUrl };
+        });
+
+        // Filter products with the category 'Kids Clothing' and userEmail not matching
+        const filteredProducts = productsData.filter(
+          (product) => product.category === 'Traditional Instruments' && product.userEmail !== userDetails?.email
+        );
+        setProducts(filteredProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, 'Users', user.uid);
+
+        try {
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserDetails(userData);
+          } else {
+            console.log('User document does not exist');
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      } else {
+        // Handle the case when the user is not logged in
+        setUserDetails(null);
+      }
+    });
+
+    fetchProducts();
+
+    // Cleanup the auth state listener when the component unmounts
+    return () => unsubscribe();
+  }, [userDetails?.email, wishlist]);
 
   return (
     <ScrollView>
@@ -42,10 +116,11 @@ const TraditionalInstruments = ({ navigation }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.productItem}
-                onPress={() => navigation.navigate('TraditionalInstrumentsProductPage', { product: item })}
+                  onPress={() => navigation.navigate('ProductPage', { productId: item.id, product: item })}
+
               >
                 <View style={styles.imageContainer}>
-                  <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+                  <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
                   <TouchableOpacity
                     style={[
                       styles.wishlistButton,
@@ -73,23 +148,11 @@ const TraditionalInstruments = ({ navigation }) => {
   );
 };
 
-
 const Stack = createStackNavigator();
 
 const TraditionalInstrumentsStack = () => (
-  <Stack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#C1EA5F',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      color: 'black', 
-      textAlign: 'left',
-      
-    },
-  }}>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Traditional Instruments" component={TraditionalInstruments} />
-    <Stack.Screen name="TraditionalInstrumentsProductPage" component={TraditionalInstrumentsProductPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

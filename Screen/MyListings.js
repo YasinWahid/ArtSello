@@ -78,34 +78,48 @@ const MyListingsScreen = ({ navigation }) => {
     if (!selectedProduct) {
       return;
     }
-
+  
     const db = getFirestore(app);
     const storage = getStorage(app);
     const productRef = doc(db, 'products', selectedProduct.id);
-
+  
     try {
       // Get the reference to the previous image
       const prevImageRef = ref(storage, `images/${selectedProduct.id}`);
-      // Delete the previous image
-      await deleteObject(prevImageRef);
-
+  
+      // Check if the object exists before trying to delete it
+      const prevImageExists = await getDownloadURL(prevImageRef).then(
+        () => true,
+        (error) => {
+          if (error.code === 'storage/object-not-found') {
+            return false;
+          }
+          throw error;
+        }
+      );
+  
+      // Delete the previous image only if it exists
+      if (prevImageExists) {
+        await deleteObject(prevImageRef);
+      }
+  
       // Update other details
       await updateDoc(productRef, {
         name: updatedProductName || selectedProduct.name,
         price: updatedProductPrice || selectedProduct.price,
         description: updatedProductDescription || selectedProduct.description,
       });
-
+  
       // Upload a new image if selectedImage is not null
       if (selectedImage) {
         const newImageRef = ref(storage, `images/${selectedProduct.id}`);
         await uploadBytes(newImageRef, selectedImage);
         const imageUrl = await getDownloadURL(newImageRef);
-
+  
         // Update the imageUrl in the database
         await updateDoc(productRef, { imageUrl });
       }
-
+  
       setModalVisible(false);
       fetchProducts();
     } catch (error) {
@@ -113,6 +127,7 @@ const MyListingsScreen = ({ navigation }) => {
     }
   };
 
+  
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

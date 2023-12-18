@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView,View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase';
 import { Picker } from '@react-native-picker/picker';
+import { IconButton } from 'react-native-paper';
 
 class AddProductScreen extends Component {
   constructor(props) {
@@ -15,9 +16,10 @@ class AddProductScreen extends Component {
       price: '',
       description: '',
       selectedImage: null,
+      loading: false,
     };
   }
-
+  
   async componentDidMount() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -48,6 +50,7 @@ class AddProductScreen extends Component {
     const imageName = new Date().getTime().toString();
 
     try {
+      this.setState({ loading: true });
       // Upload the selected image to Firebase Storage
       const response = await fetch(selectedImage);
       const blob = await response.blob();
@@ -79,9 +82,11 @@ class AddProductScreen extends Component {
         price: '',
         description: '',
         selectedImage: null,
+        loading: false, // Reset loading state after successful upload
       });
     } catch (error) {
       console.error('Error adding document: ', error);
+      this.setState({ loading: false }); // Reset loading state on error
     }
   };
 
@@ -136,7 +141,12 @@ class AddProductScreen extends Component {
         <TouchableOpacity title="Add Product" style={styles.button} onPress={this.handleAddProduct}>
           <Text style={styles.buttonText2}>Add Product</Text>
         </TouchableOpacity>
-        </KeyboardAvoidingView>
+        {this.state.loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#C1EA5F" />
+          </View>
+        )}
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -186,7 +196,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 10,
     marginBottom: 10,
-  }
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default AddProductScreen;
