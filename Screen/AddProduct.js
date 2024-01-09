@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView,ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -17,6 +17,8 @@ class AddProductScreen extends Component {
       description: '',
       selectedImage: null,
       loading: false,
+      nameError: null, // Initialize nameError
+    priceError: null, // Initialize priceError
     };
   }
   
@@ -37,68 +39,92 @@ class AddProductScreen extends Component {
       allowsEditing: true,
       quality: 1,
     });
-
-    if (!result.cancelled) {
-      this.setState({ selectedImage: result.uri });
+  
+    if (!result.canceled) {
+      // Use the first selected asset from the "assets" array
+      const selectedAsset = result.assets && result.assets.length > 0 ? result.assets[0] : null;
+  
+      if (selectedAsset) {
+        this.setState({ selectedImage: selectedAsset.uri });
+      }
     }
   };
+  
 
   handleAddProduct = async () => {
     const { name, price, description, selectedImage, selectedCategory } = this.state;
-    const { userEmail, userContact } = this.props.route.params; // Retrieve user details from route params
+    const { userEmail, userContact } = this.props.route.params;
     const storage = getStorage(app);
     const imageName = new Date().getTime().toString();
-
+  
+    // Validation checks
+    if (name.length === 0 || name.length > 50) {
+      alert('Invalid name. Please enter a name under 50 characters.');
+      return;
+    }
+  
+    const numericPrice = parseFloat(price);
+    if (isNaN(numericPrice) || numericPrice <= 100) {
+      alert('Invalid price. Please enter a numeric value greater than 100.');
+      return;
+    }
+  
     try {
       this.setState({ loading: true });
+  
       // Upload the selected image to Firebase Storage
       const response = await fetch(selectedImage);
       const blob = await response.blob();
       const imageRef = ref(storage, `images/${imageName}`);
       await uploadBytes(imageRef, blob);
-
+  
       // Get the download URL for the uploaded image
       const imageUrl = await getDownloadURL(imageRef);
-
+  
       const db = getFirestore(app);
-
+  
       // Add user details to the product document
-    const docRef = await addDoc(collection(db, 'products'), {
-      name,
-      category: selectedCategory,
-      price,
-      description,
-      imageUrl,
-      userEmail, // Include user email
-      userContact, // Include user contact
-    });
-
-      console.log('Document written with ID: ', docRef.id);
-
+      const docRef = await addDoc(collection(db, 'products'), {
+        name,
+        category: selectedCategory,
+        price,
+        description,
+        imageUrl,
+        userEmail,
+        userContact,
+      });
+  
+      alert('Product added successfully!');
+  
       // Reset form fields and selected image
       this.setState({
         name: '',
-        selectedCategory: 'Category 1', // Reset the selected category
+        selectedCategory: 'Category 1',
         price: '',
         description: '',
         selectedImage: null,
-        loading: false, // Reset loading state after successful upload
+        loading: false,
       });
     } catch (error) {
+      alert('Error adding product. Please try again later.');
       console.error('Error adding document: ', error);
-      this.setState({ loading: false }); // Reset loading state on error
+      this.setState({ loading: false });
     }
   };
+  
+  
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <ScrollView style={styles.container} behavior="padding">
         <Text style={styles.title}>Product Name</Text>
-        <TextInput
-          value={this.state.name}
-          onChangeText={(text) => this.setState({ name: text })}
-          style={styles.input}
-        />
+<TextInput
+  value={this.state.name}
+  onChangeText={(text) => this.setState({ name: text, nameError: null })}
+  style={styles.input}
+/>
+{this.state.nameError && <Text style={styles.errorText}>{this.state.nameError}</Text>}
+
          <Text style={styles.title}>Product Image</Text>
          <TouchableOpacity title="Select Image" style={styles.button} onPress={this.openImagePicker}>
           <Text style={styles.buttonText2}>Select Image</Text>
@@ -126,17 +152,18 @@ class AddProductScreen extends Component {
         </Picker>
 
         <Text style={styles.title}>Product Price</Text>
-        <TextInput
-          value={this.state.price}
-          onChangeText={(text) => this.setState({ price: text })}
-          style={styles.input}
-        />
-
+<TextInput
+  value={this.state.price}
+  onChangeText={(text) => this.setState({ price: text, priceError: null })}
+  style={styles.input}
+  keyboardType="numeric"
+/>
+{this.state.priceError && <Text style={styles.errorText}>{this.state.priceError}</Text>}
         <Text style={styles.title}>Product Description</Text>
         <TextInput
           value={this.state.description}
           onChangeText={(text) => this.setState({ description: text })}
-          style={styles.input}
+          style={styles.description}
         />
         <TouchableOpacity title="Add Product" style={styles.button} onPress={this.handleAddProduct}>
           <Text style={styles.buttonText2}>Add Product</Text>
@@ -146,7 +173,7 @@ class AddProductScreen extends Component {
             <ActivityIndicator size="large" color="#C1EA5F" />
           </View>
         )}
-      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
@@ -169,6 +196,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 16,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    height: 200,
   },
   button: {
     backgroundColor: '#C1EA5F',
@@ -201,6 +237,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View,ScrollView, Text, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
+import { View,ScrollView, Text, StyleSheet, TouchableOpacity, Button, Image,TextInput, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { collection, getDocs, doc, deleteDoc, updateDoc,} from 'firebase/firestore';
 import { firestore } from '../firebase';
@@ -38,10 +38,26 @@ const Logout = ({ onLogout }) => {
     );
   };
 
-const ManageUsers = ({ users, onBlockUser, onUnblockUser }) => {
+  const ManageUsers = ({ users, onBlockUser, onUnblockUser }) => {
+    const [searchText, setSearchText] = useState('');
+    const [filteredUsers, setFilteredUsers] = useState([]);
+  
+    useEffect(() => {
+      const filteredUserList = users.filter((user) =>
+        user.username.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredUsers(filteredUserList);
+    }, [searchText, users]);
   return (
     <ScrollView style={styles.container}>
        <Text style={styles.adminPanelHeader}>Admin Panel | Manage Users</Text>
+       {/* Search Input */}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search Users"
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
+      />
       <View style={styles.mainHeader}>
       <View style={styles.tableHeader}>
         <Text style={styles.headerText}>Name</Text>
@@ -56,7 +72,7 @@ const ManageUsers = ({ users, onBlockUser, onUnblockUser }) => {
         <Text style={styles.headerText}>Actions</Text>
       </View>
       </View>
-      {users.map((user) => (
+      {filteredUsers.map((user) => (
         <View style={styles.tableContent} key={user.id}>
           <View style={styles.userInfo}>
             <Text style={styles.name}>{user.username}</Text>
@@ -82,9 +98,26 @@ const ManageUsers = ({ users, onBlockUser, onUnblockUser }) => {
 
 
 const ManageProducts = ({ products, onDeleteProduct }) => {
+  const [searchText, setSearchText] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  useEffect(() => {
+    const filteredProductList = products.filter((product) =>
+    product.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    product.userEmail.toLowerCase().includes(searchText.toLowerCase())
+  );
+    setFilteredProducts(filteredProductList);
+  }, [searchText, products]);
+
   return (
     <ScrollView style={styles.container}>
        <Text style={styles.adminPanelHeader}>Admin Panel | Manage Products</Text>
+       <TextInput
+        style={styles.searchInput}
+        placeholder="Search Products"
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
+      />
         <View style={styles.mainHeader}>
       <View style={styles.tableHeader}>
       <Text style={styles.headerText}>Title</Text>
@@ -98,15 +131,20 @@ const ManageProducts = ({ products, onDeleteProduct }) => {
       <View style={styles.tableHeader}>
         <Text style={styles.headerText}>Actions</Text>
       </View>
+      <View style={styles.tableHeader}>
+          <Text style={styles.headerText}>Email</Text>
+        </View>
       </View>
-      {products.map((product, index) => (
+      {filteredProducts.map((product, index) => (
         <View style={styles.tableContent} key={product.id}>
-          <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.title}>{product.name}</Text>
+          <Text style={styles.price}>{product.price}</Text>
           <Image source={{ uri: product.imageUrl }} style={styles.productImage} />
           <TouchableOpacity onPress={() => onDeleteProduct(product.id)}>
             <Text style={styles.deleteButton}>X</Text>
           </TouchableOpacity>
+           {/* Display User Email */}
+           <Text style={styles.pemail}>{product.userEmail}</Text>
         </View>
       ))}
     </ScrollView>
@@ -289,7 +327,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
     backgroundColor: 'white',
-    padding: 10,
+    padding: 2,
     borderRadius: 5,
     borderBottomWidth: 2,
     borderBottomColor: '#C1EA5F',
@@ -320,12 +358,18 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
   },
+  title: {
+    color: 'black',
+    fontSize: 16,
+    flex: 1,
+    fontWeight: 'bold',
+    marginRight: 20,
+  },
   price: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#C1EA5F',
     flex: 1,
-    marginLeft: 30,
   },
   email: {
     color: 'black',
@@ -333,6 +377,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 25,
   },
+  pemail: {
+    color: 'black',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginTop: 30,
+    marginLeft: 25,
+  },
+
   deleteButton: {
     width: 24,
     height: 24,
@@ -340,7 +392,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
     fontWeight: 'bold',
-    margin:20,
+    marginTop:20,
     backgroundColor: '#fc6d6d',
   },
   item: {
@@ -349,10 +401,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productImage: {
-    width: 60,
-    height: 60,
+    width: 45,
+    height: 45,
     borderRadius: 10,
-    marginRight: 30,
+    marginRight: 15,
+    resizeMode: 'contain',
   },
   productDetails: {
     flex: 1,
@@ -366,6 +419,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 50,
+    resizeMode: 'contain',
   },
   actions: {
     flexDirection: 'row',
@@ -409,6 +463,7 @@ const styles = StyleSheet.create({
     width: 96,
     height: 96,
     borderRadius: 70,
+    resizeMode: 'contain',
   },
   adminInfo: {
     alignItems: 'center',
@@ -433,6 +488,12 @@ const styles = StyleSheet.create({
     elevation: 9,
     shadowColor: '#C1EA5F',
     shadowOpacity: 1,
+  },
+  searchInput: {
+    backgroundColor: '#C1EA5F',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
   },
 });
 

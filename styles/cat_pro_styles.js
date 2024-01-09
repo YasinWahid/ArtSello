@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     width: 320,
     height: 350,
     borderRadius: 4,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 16,
@@ -22,15 +23,28 @@ export const styles = StyleSheet.create({
     color: '#C1EA5F',
   },
   price: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'white',
+  },
+  dash:{
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
     color: '#C1EA5F',
+
   },
   description: {
     fontSize: 14,
     marginBottom: 10,
     color: 'white',
+  },
+  desch: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#C1EA5F',
   },
   buttonContainer: {
     flexDirection: 'row',

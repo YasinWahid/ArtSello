@@ -79,6 +79,20 @@ const MyListingsScreen = ({ navigation }) => {
       return;
     }
   
+
+     // Validate updated product name
+     if (updatedProductName.trim().length === 0 || updatedProductName.length > 50) {
+      alert('Invalid name. Please enter a name under 50 characters.');
+      return;
+    }
+
+    // Validate updated product price
+    const numericPrice = parseFloat(updatedProductPrice);
+    if (isNaN(numericPrice) || numericPrice <= 100) {
+      alert('Invalid price. Please enter a numeric value greater than 100.');
+      return;
+    }
+
     const db = getFirestore(app);
     const storage = getStorage(app);
     const productRef = doc(db, 'products', selectedProduct.id);
@@ -171,10 +185,10 @@ const MyListingsScreen = ({ navigation }) => {
     <View style={styles.productContainer}>
       <TouchableOpacity style={styles.productItem}>
         <View style={styles.productItemContent}>
-          <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="cover" />
+          <Image source={{ uri: item.imageUrl }} style={styles.productImage} resizeMode="contain" />
           <View style={styles.productInfo}>
             <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>{item.price}</Text>
+            <Text style={styles.productPrice}>Rs. {item.price}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -199,7 +213,7 @@ const MyListingsScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-          <Text style={styles.buttonText}>Delete</Text>
+          <Text style={styles.deletebuttonText}>Delete</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -230,7 +244,7 @@ const MyListingsScreen = ({ navigation }) => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
         const response = await fetch(result.uri);
     const blob = await response.blob();
     setSelectedImage(blob);
@@ -257,7 +271,7 @@ const MyListingsScreen = ({ navigation }) => {
               style={styles.input}
               placeholder="Product Name"
               value={updatedProductName}
-              onChangeText={(text) => setUpdatedProductName(text)}
+              onChangeText={(text) => setUpdatedProductName(text.trim())}
             />
             <Text style={styles.title2}>Update Price</Text>
             <TextInput
@@ -265,6 +279,7 @@ const MyListingsScreen = ({ navigation }) => {
               placeholder="Product Price"
               value={updatedProductPrice}
               onChangeText={(text) => setUpdatedProductPrice(text)}
+              keyboardType="numeric"
             />
             <Text style={styles.title2}>Update Description</Text>
             <TextInput
@@ -293,7 +308,7 @@ const MyListingsScreen = ({ navigation }) => {
                 setSelectedProduct(null); // Reset selected product
               }}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.deletebuttonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -363,14 +378,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   updateButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#C1EA5F',
     padding: 10,
     borderRadius: 5,
     flex: 1,
     marginRight: 5,
   },
   updateButton2: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#C1EA5F',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
@@ -384,7 +399,13 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  deletebuttonText: {
+    color: 'white',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   title: {

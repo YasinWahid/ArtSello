@@ -16,6 +16,12 @@ const RegistrationScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [errors, setErrors] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+  });
 
   const openImagePickerProfile = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -31,6 +37,42 @@ const RegistrationScreen = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
+ // Reset errors
+ setErrors({
+  fullName: '',
+  email: '',
+  password: '',
+  phoneNumber: '',
+});
+
+// Basic validation checks
+if (!fullName || !email || !password || !phoneNumber) {
+  setErrors({ ...errors, fullName: 'Please fill in all the fields.' });
+  return;
+}
+
+// Custom validation checks
+if (!isValidEmail(email)) {
+  setErrors({ ...errors, email: 'Please enter a valid Gmail address.' });
+  return;
+}
+
+if (!isValidName(fullName)) {
+  setErrors({ ...errors, fullName: 'Please enter a valid name (alphabets and numbers only, max 25 characters).' });
+  return;
+}
+
+if (!isValidPassword(password)) {
+  setErrors({ ...errors, password: 'Please enter a valid password (at least 8 characters with symbols, numbers, and letters).' });
+  return;
+}
+
+if (!isValidPhoneNumber(phoneNumber)) {
+  setErrors({ ...errors, phoneNumber: 'Please enter a valid phone number (11 digits).' });
+  return;
+}
+
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
@@ -62,9 +104,30 @@ const RegistrationScreen = ({ navigation }) => {
     }
   };
   
-  
+  const isValidEmail = (email) => {
+    const gmailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
+    return gmailRegex.test(email);
+  };
+
+  const isValidName = (name) => {
+    const nameRegex = /^[a-zA-Z0-9\s]{1,25}$/;
+    return nameRegex.test(name);
+  };
+
+  const isValidPassword = (password) => {
+    // Password should contain symbols, numbers, and letters and be at least 8 characters long
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const isValidPhoneNumber = (phoneNumber) => {
+    // Phone number should be 11 digits
+    const phoneRegex = /^\d{11}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <View style={styles.container} behavior="padding">
       <Text style={styles.logo}>ArtSello</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -105,8 +168,11 @@ const RegistrationScreen = ({ navigation }) => {
           </View>
         )}
       </View>
-
       <View style={styles.buttonContainer}>
+      <Text style={{ color: 'red', marginBottom: 10 }}>{errors.fullName}</Text>
+        <Text style={{ color: 'red', marginBottom: 10 }}>{errors.email}</Text>
+        <Text style={{ color: 'red', marginBottom: 10 }}>{errors.password}</Text>
+        <Text style={{ color: 'red', marginBottom: 10 }}>{errors.phoneNumber}</Text>
         <TouchableOpacity onPress={handleSignUp} style={styles.button}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
@@ -115,7 +181,7 @@ const RegistrationScreen = ({ navigation }) => {
           <Text style={styles.text2}>Login</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

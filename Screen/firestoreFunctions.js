@@ -1,6 +1,8 @@
-import { collection, addDoc, serverTimestamp,  getDocs, where, query, orderBy, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, where, query, doc, getDoc, orderBy, } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { firestore } from '../firebase';
+import { Alert } from 'react-native';
+
 
 const getReviewsForProduct = async (productId) => {
   try {
@@ -36,8 +38,6 @@ const reviewsCollection = collection(firestore, 'reviews');
 const addReviewToFirestore = async (productId, reviewDetails) => {
   try {
     const auth = getAuth();
-
-    // Get the current user
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
@@ -45,36 +45,64 @@ const addReviewToFirestore = async (productId, reviewDetails) => {
       return;
     }
 
-    // Fetch user data from Firestore
+    const existingReviewsQuery = query(
+      reviewsCollection,
+      where('productId', '==', productId),
+      where('userId', '==', currentUser.uid)
+    );
+
+    const existingReviewsSnapshot = await getDocs(existingReviewsQuery);
+
+    if (!existingReviewsSnapshot.empty) {
+      console.warn('User has already reviewed this product');
+      // Optionally, you can provide user feedback here (e.g., show a message)
+      return;
+    }
+
     const userDocRef = doc(firestore, 'Users', currentUser.uid);
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
-
-      // Include the current user's name in the review details
       reviewDetails.userName = userData.username || currentUser.displayName || 'Anonymous';
+      reviewDetails.userEmail = currentUser.email;
     } else {
-      // Fallback to display name or 'Anonymous' if no username is found
       reviewDetails.userName = currentUser.displayName || 'Anonymous';
+      reviewDetails.userEmail = currentUser.email;
     }
 
-    // Add timestamp to the review details
     reviewDetails.createdAt = serverTimestamp();
-
-    // Include the product ID in the review details
     reviewDetails.productId = productId;
+    reviewDetails.userId = currentUser.uid;
 
-    // Add the review details to the 'reviews' collection
     const docRef = await addDoc(reviewsCollection, reviewDetails);
 
     console.log('Review added with ID:', docRef.id);
-    return docRef.id; // Return the ID of the added review if needed
+
+    // Show an alert after successfully adding the review
+    Alert.alert(
+      'Review Submitted',
+      'Thank you for submitting your review!',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
+
+    // You can choose to show an alert or handle success in your component if needed
+
+    return docRef.id;
   } catch (error) {
     console.error('Error adding review:', error);
-    throw error; // You can handle the error as needed in your component
+
+    // Show an alert for the error
+    Alert.alert(
+      'Error',
+      'There was an error submitting your review. Please try again later.',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
+
+    throw error;
   }
 };
+
 
 const addToFavorites = async (product) => {
   try {

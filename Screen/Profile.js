@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderColor: '#C1EA5F',
     borderWidth: 2,
+    resizeMode: 'contain',
     marginTop: 10,
   },
 });

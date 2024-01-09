@@ -69,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <View style={styles.container} behavior="padding">
       <Text style={styles.logo}>ArtSello</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -113,7 +113,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.text2}> Register Now</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

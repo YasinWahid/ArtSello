@@ -30,12 +30,15 @@ export const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
+    resizeMode: 'contain',
+
   },
   productImage: {
     marginTop: 10,
     width: 220,
     height: 350,
     borderRadius: 10,
+    resizeMode: 'contain',
  
   },
   wishlistButton: {
@@ -61,5 +64,45 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     color: '#C1EA5F',
+  },
+  filterContainer: {
+    backgroundColor: '#fff',
+    padding: 16,
+    marginBottom: 16,
+  },
+  filterLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  filterButtons: {
+    flexDirection: 'row',
+    marginBottom: 16,
+  },
+  filterButton: {
+    marginRight: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 8,
+  },
+  filterButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  activeFilter: {
+    backgroundColor: '#C1EA5F', // or your desired active color
+    color: '#fff',
+  },
+  priceInputs: {
+    flexDirection: 'row',
+  },
+  priceInput: {
+    flex: 1,
+    marginRight: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 8,
   },
 });

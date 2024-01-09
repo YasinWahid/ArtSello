@@ -78,12 +78,12 @@ const FavoritePage = ({ navigation }) => {
         <Image
           source={{ uri: item.imageUrl }}
           style={styles.productImage}
-          resizeMode="cover"
+          resizeMode="contain"
           onError={(error) => console.error('Image load error:', error.nativeEvent.error)}
         />
         <View style={styles.productInfo}>
           <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.productPrice}>{item.price}</Text>
+          <Text style={styles.productPrice}>Rs. {item.price}</Text>
         </View>
         <TouchableOpacity
           style={styles.deleteButton}

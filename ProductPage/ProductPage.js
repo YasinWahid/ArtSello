@@ -81,9 +81,14 @@ const [reviews, setReviews] = useState([]);
       };
   
       // Pass the product ID to associate the review with the specific product
-      const reviewId = await addReviewToFirestore(productId, reviewDetails);
+    const reviewId = await addReviewToFirestore(productId, reviewDetails, setRating);
   
       console.log('Review added to Firestore with ID:', reviewId);
+
+      
+      // Clear the input fields after successful submission
+      setRating(0);
+      setReview('');
   
       // Optionally, you can provide user feedback here (e.g., show a success message)
     } catch (error) {
@@ -97,6 +102,9 @@ const [reviews, setReviews] = useState([]);
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.price}> {price}</Text>
+      <Text style={styles.dash}>------------------------------------------------</Text>
+      <Text style={styles.desch}>Description</Text>
+      <Text style={styles.dash}>------------------------------------------------</Text>
       <Text style={styles.description}>{description}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleWishlist}>
