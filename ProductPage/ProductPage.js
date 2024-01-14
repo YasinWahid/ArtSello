@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, TextInput, ActivityIndicator, Modal } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import FooterComponent from '../Nav/Footer';
 import { styles } from '../styles/cat_pro_styles';
-import { addToFavorites, addReviewToFirestore, getReviewsForProduct } from '../Screen/firestoreFunctions';
+import { addToFavorites, addReviewToFirestore,  getReviewsForProduct } from '../Screen/firestoreFunctions';
 import { Linking } from 'react-native';
+
 
 
 const ProductCard = ({ imageUrl, name, description, price, userContact, productId }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
 const [reviews, setReviews] = useState([]);
-const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     // Fetch reviews for the specific product
     const fetchReviews = async () => {
@@ -73,8 +74,6 @@ const [loading, setLoading] = useState(false);
     console.log('Contact Information:', userContact);
   
     try {
-       // Set loading to true to show the loading indicator
-    setLoading(true);
       const reviewDetails = {
         rating,
         review,
@@ -95,10 +94,6 @@ const [loading, setLoading] = useState(false);
     } catch (error) {
       // Handle error (e.g., show an error message to the user)
       console.error('Error submitting review:', error);
-  
-    } finally {
-      // Set loading back to false whether the submission is successful or not
-      setLoading(false);
     }
   };
 
@@ -180,19 +175,6 @@ const [loading, setLoading] = useState(false);
         </TouchableOpacity>
 
       </View>
-       {/* Loading Indicator */}
-       <Modal
-        transparent={true}
-        animationType="slide"
-        visible={loading}
-        onRequestClose={() => setLoading(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <ActivityIndicator size="large" color="#C1EA5F" />
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };
@@ -201,7 +183,7 @@ const [loading, setLoading] = useState(false);
 const ProductPage = ({ route }) => {
   const { product, productId } = route.params;
   const { imageUrl, name, price, description, userContact } = product;
- 
+  
 
   return (
     <ScrollView>

@@ -1,28 +1,8 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView,ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-} from 'firebase/firestore';
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from 'firebase/storage';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase';
 import { Picker } from '@react-native-picker/picker';
 import { IconButton } from 'react-native-paper';
@@ -32,13 +12,13 @@ class AddProductScreen extends Component {
     super(props);
     this.state = {
       name: '',
-      selectedCategory: 'Kids Clothing',
+      selectedCategory: 'Kids Clothing', // Initialize with the default category
       price: '',
       description: '',
       selectedImage: null,
       loading: false,
-      nameError: null,
-      priceError: null,
+      nameError: null, // Initialize nameError
+    priceError: null, // Initialize priceError
     };
   }
   
@@ -193,23 +173,7 @@ class AddProductScreen extends Component {
             <ActivityIndicator size="large" color="#C1EA5F" />
           </View>
         )}
-               {/* Loading Indicator as a Modal */}
-               <Modal
-          transparent={true}
-          animationType="slide"
-          visible={this.state.loading}
-          onRequestClose={() => {
-            this.setState({ loading: false });
-          }}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <ActivityIndicator size="large" color="#C1EA5F" />
-            </View>
-          </View>
-        </Modal>
       </ScrollView>
-
     );
   }
 }
@@ -269,26 +233,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  errorText: {
-    color: 'red',
-    fontSize: 14,
-    marginBottom: 10,
-  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 
